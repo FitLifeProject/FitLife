@@ -8,10 +8,14 @@ class Model extends ChangeNotifier {
 
   bool _isProcessing = false;
   int _registered = 0;
+  int _users = 0;
   User? _user;
   String _name = "";
   String _str = "";
   String _spinnerVal = "24H";
+  List<String> _sender = [];
+  List<String> _userInfo = [];
+  var uniqueSet = <String>{};
   List<String> _selectedWeekdays = [
     "Monday,",
     "Tuesday,",
@@ -24,10 +28,13 @@ class Model extends ChangeNotifier {
   String _weekdays = "";
   bool get isProcessing => _isProcessing;
   int get registered => _registered;
+  int get users => _users;
   String get name => _name;
   String get str => _str;
   String get spinnerVal => _spinnerVal;
   User? get user => _user;
+  List<String> get sender => _sender;
+  List<String> get userInfo => _userInfo;
   List<String> get selectedWeekdays => _selectedWeekdays;
   String get weekdays => _weekdays;
 
@@ -134,6 +141,17 @@ class Model extends ChangeNotifier {
     });
   }
 
+  getUserInfo() async {
+    var doc = await fb_store.collection("userinfo").doc(auth.currentUser?.email).get();
+    _userInfo.add(doc.data()!["name"]);
+    _userInfo.add(doc.data()!["email"]);
+    _userInfo.add(doc.data()!["gender"]);
+    _userInfo.add(doc.data()!["gymName"]);
+    _userInfo.add(doc.data()!["admin"].toString());
+    notifyListeners();
+    return _userInfo;
+  }
+
   void manageDays(bool isSelected, String weekday, int i) {
     if(isSelected) {
       _selectedWeekdays.remove(weekday);
@@ -177,5 +195,45 @@ class Model extends ChangeNotifier {
   changeSpinnerValue(value) {
     _spinnerVal = value;
     notifyListeners();
+  }
+
+  getUsers() async {
+    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("chat-${_userInfo[3]}").get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
+    for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
+      sender.add(element.data()['sender']);
+      sender.where((email) => uniqueSet.add(email)).toList();
+      _users = uniqueSet.length;
+    }
+    notifyListeners();
+  }
+
+  void sendMsg(String message, int index, bool edit) {
+    String name;
+    if(_userInfo[4] == "true") {
+      name = "${_userInfo[0]} (Trainer)";
+    } else {
+      name = _userInfo[0];
+    }
+    if(edit) {
+      fb_store.collection("chat-${_userInfo[3]}").doc("doc$index").update({
+        "message": message,
+        "modified": true,
+      });
+    } else {
+      fb_store.collection("chat-${_userInfo[3]}").doc("doc$index").set({
+        "sender": name,
+        "senderMail": auth.currentUser!.email,
+        "message": message,
+        "timestamp": FieldValue.serverTimestamp(),
+        "modified": false,
+      });
+    }
+  }
+
+  Stream<QuerySnapshot> getMessages() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("chat-${_userInfo[3]}").orderBy("timestamp", descending: false).snapshots();
+    getUsers();
+    return snapshots;
   }
 }

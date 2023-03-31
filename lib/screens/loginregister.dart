@@ -167,6 +167,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                           },
                         ),
                       );
+                      model.getUserInfo();
                       user = null;
                     }
                   },
@@ -300,6 +301,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                               },
                             ),
                           );
+                          model.getUserInfo();
                           user = null;
                         }
                       }
@@ -472,6 +474,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                     } else {
                       model.processingData(false);
                     }
+                    model.getUserInfo();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(64, 151, 117, 1),

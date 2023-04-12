@@ -15,6 +15,8 @@ class Model extends ChangeNotifier {
   String _spinnerVal = "24H";
   List<String> _sender = [];
   List<String> _userInfo = [];
+  List<String> _gymInfo = [];
+  List<String> _gNames = [];
   var uniqueSet = <String>{};
   List<String> _selectedWeekdays = [
     "Monday,",
@@ -35,6 +37,8 @@ class Model extends ChangeNotifier {
   User? get user => _user;
   List<String> get sender => _sender;
   List<String> get userInfo => _userInfo;
+  List<String> get gymInfo => _gymInfo;
+  List<String> get gNames => _gNames;
   List<String> get selectedWeekdays => _selectedWeekdays;
   String get weekdays => _weekdays;
 
@@ -99,7 +103,7 @@ class Model extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         hideSnackbar(context);
-        showSnackbar(context, str);
+        showSnackbar(context, "Password is too weak");
         return null;
       } else if (e.code == 'email-already-in-use') {
         hideSnackbar(context);
@@ -137,6 +141,7 @@ class Model extends ChangeNotifier {
       "name": name,
       "gender": gender,
       "email": email,
+      "gymName": "",
       "admin": (email.contains("gym") || email.contains("admin")) ? true : false,
     });
   }
@@ -150,6 +155,19 @@ class Model extends ChangeNotifier {
     _userInfo.add(doc.data()!["admin"].toString());
     notifyListeners();
     return _userInfo;
+  }
+
+  addUserGymInfo(String gymName, {String email = "", bool isAdmin = false}) async {
+    if(isAdmin && email.isNotEmpty) {
+      await fb_store.collection("userinfo").doc(email).update ({
+        "gymName": gymName
+      });
+    } else if(!isAdmin && email.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update ({
+        "gymName": gymName
+      });
+    }
+    _userInfo[3] = gymName;
   }
 
   void manageDays(bool isSelected, String weekday, int i) {
@@ -183,6 +201,21 @@ class Model extends ChangeNotifier {
     }
   }
 
+  getGymInfo(String str) async {
+    if(_gymInfo.isNotEmpty) {
+      _gymInfo = [];
+    }
+    var doc = await fb_store.collection("gyminfo").doc(str).get();
+    _gymInfo.add(doc.data()!["name"]);
+    _gymInfo.add(doc.data()!["location"]);
+    _gymInfo.add(doc.data()!["activeHours"]);
+    _gymInfo.add(doc.data()!["price"].toString());
+    _gymInfo.add(doc.data()!["admin"]);
+    _gymInfo.add(doc.data()!["daysThatIsOpened"]);
+    notifyListeners();
+    return _gymInfo;
+  }
+
   updateToggleButton(List lBool, int index, List lString) {
     for (int i = 0; i < lBool.length; i++) {
       lBool[i] = i == index;
@@ -204,6 +237,15 @@ class Model extends ChangeNotifier {
       sender.add(element.data()['sender']);
       sender.where((email) => uniqueSet.add(email)).toList();
       _users = uniqueSet.length;
+    }
+    notifyListeners();
+  }
+
+  getGyms() async {
+    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("gyminfo").get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
+    for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
+      gNames.add(element.data()['name']);
     }
     notifyListeners();
   }

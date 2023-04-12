@@ -168,6 +168,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                         ),
                       );
                       model.getUserInfo();
+                      model.getGyms();
                       user = null;
                     }
                   },
@@ -302,6 +303,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                             ),
                           );
                           model.getUserInfo();
+                          model.getGyms();
                           user = null;
                         }
                       }
@@ -454,6 +456,11 @@ class _LoginRegisterState extends State<LoginRegister> {
                           double.parse(_priceController.text),
                           (model.weekdays.isEmpty) ? "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday," : model.weekdays,
                       );
+                      model.addUserGymInfo(
+                          _gymNameTextController.text,
+                          email: _emailTextController.text,
+                          isAdmin: true
+                      );
 
                       _nameTextController.text = "";
                       _emailTextController.text = "";
@@ -475,6 +482,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                       model.processingData(false);
                     }
                     model.getUserInfo();
+                    model.getGyms();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(64, 151, 117, 1),

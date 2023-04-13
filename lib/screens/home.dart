@@ -2,6 +2,9 @@ import 'package:fitlife/models/model.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/gyminfo.dart';
 import 'package:fitlife/screens/gymresults.dart';
+import 'package:fitlife/screens/menu.dart';
+import 'package:fitlife/screens/profile.dart';
+import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -97,9 +100,9 @@ class _HomeState extends State<Home> {
         ]
       ),
       body: Column(
-        children: [
-        ],
+        children: [],
       ),
+      bottomNavigationBar: BottomNavigation(model, context),
     );
   }
 }

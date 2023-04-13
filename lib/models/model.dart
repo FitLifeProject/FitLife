@@ -9,6 +9,7 @@ class Model extends ChangeNotifier {
   bool _isProcessing = false;
   int _registered = 0;
   int _users = 0;
+  int _selectedScreen = 0;
   User? _user;
   String _name = "";
   String _str = "";
@@ -41,6 +42,7 @@ class Model extends ChangeNotifier {
   List<String> get gNames => _gNames;
   List<String> get selectedWeekdays => _selectedWeekdays;
   String get weekdays => _weekdays;
+  int get selectedScreen => _selectedScreen;
 
   processingData(bool process) {
     if(process) {
@@ -277,5 +279,9 @@ class Model extends ChangeNotifier {
     Stream<QuerySnapshot> snapshots = fb_store.collection("chat-${_userInfo[3]}").orderBy("timestamp", descending: false).snapshots();
     getUsers();
     return snapshots;
+  }
+
+  changeScreen(int selected) {
+    _selectedScreen = selected;
   }
 }

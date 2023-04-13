@@ -1,5 +1,6 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/screens/chat.dart';
+import 'package:fitlife/screens/clock.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +25,11 @@ class _MenuState extends State<Menu> {
             onPressed: () {
             },
           ),
-          title: Text("Menu"),
+          title: const Text("Menu"),
           centerTitle: true,
           actions: [
             IconButton(
-              icon: Icon(Icons.chat),
+              icon: const Icon(Icons.chat),
               onPressed: () {
                 if (model.userInfo[3] != "") {
                   Navigator.push(
@@ -47,7 +48,25 @@ class _MenuState extends State<Menu> {
           ]
       ),
       body: Column(
-        children: [],
+        children: [
+          GestureDetector(
+            onTap: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Clock();
+                  },
+                ),
+              );
+            },
+            child: const ListTile(
+              leading: Icon(Icons.watch_later_outlined),
+              title: Text("Clock"),
+              trailing: Icon(Icons.arrow_forward)
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: BottomNavigation(model, context),
     );

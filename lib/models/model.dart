@@ -7,9 +7,11 @@ class Model extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   bool _isProcessing = false;
+  bool _postToAddIsForAdmin = true;
   int _registered = 0;
   int _users = 0;
   int _selectedScreen = 0;
+  int _addingPostExerciseScreen = 0;
   User? _user;
   String _name = "";
   String _str = "";
@@ -29,9 +31,16 @@ class Model extends ChangeNotifier {
     "Sunday,"
   ];
   String _weekdays = "";
+  List<String> _postsExercises = [];
+  List<String> _namesToAddingThePost = [];
+  List<String> _emailsToAddingThePost = [];
+  List<String> _nameEmailCombined = [];
+  String _NameEmailCombinedValue = "";
   bool get isProcessing => _isProcessing;
+  bool get postToAddIsForAdmin => _postToAddIsForAdmin;
   int get registered => _registered;
   int get users => _users;
+  int get addingPostExerciseScreen => _addingPostExerciseScreen;
   String get name => _name;
   String get str => _str;
   String get spinnerVal => _spinnerVal;
@@ -43,6 +52,11 @@ class Model extends ChangeNotifier {
   List<String> get selectedWeekdays => _selectedWeekdays;
   String get weekdays => _weekdays;
   int get selectedScreen => _selectedScreen;
+  List<String> get postsExercises => _postsExercises;
+  List<String> get namesToAddingThePost => _namesToAddingThePost;
+  List<String> get emailsToAddingThePost => _emailsToAddingThePost;
+  List<String> get nameEmailCombined => _nameEmailCombined;
+  String get nameEmailCombinedValue => _NameEmailCombinedValue;
 
   processingData(bool process) {
     if(process) {
@@ -283,5 +297,82 @@ class Model extends ChangeNotifier {
 
   changeScreen(int selected) {
     _selectedScreen = selected;
+  }
+
+  void setForAdmin() {
+    _postToAddIsForAdmin = !_postToAddIsForAdmin;
+    notifyListeners();
+  }
+
+  void setAddingPostExerciseScreen(int value) {
+    _addingPostExerciseScreen = value;
+    notifyListeners();
+  }
+
+  void add_rem_Exercise(String str, {bool clear = false}) {
+    if(_postsExercises.contains(str)) {
+      _postsExercises.remove(str);
+    } else {
+      _postsExercises.add(str);
+    }
+    if(str == "" && clear) {
+      _postsExercises = [];
+    }
+    notifyListeners();
+  }
+
+  Stream<QuerySnapshot> getPosts() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("posts").orderBy("timestamp", descending: false).snapshots();
+    return snapshots;
+  }
+
+  void sendPost(String exercises, String reps, String sets, {String pName = "", String pEmail = "", String content = "", String title = ""}) {
+    String name, email;
+    if(_userInfo[4] == "true") {
+      if(postToAddIsForAdmin) {
+        name = "${_userInfo[0]} (Trainer)";
+        email = _userInfo[1];
+      } else {
+        name = pName;
+        email = pEmail;
+      }
+    } else {
+      name = _userInfo[0];
+      email = _userInfo[1];
+    }
+    fb_store.collection("posts").add({
+      "content": content,
+      "exercises": exercises,
+      "gymName": _userInfo[3],
+      "name": name,
+      "publisher": email,
+      "reps": reps,
+      "sets": sets,
+      "timestamp": FieldValue.serverTimestamp(),
+      "title": title,
+      "uploadedByAdmin": (_userInfo[4] == "true") ? "true" : "false",
+    });
+  }
+
+  Future<void> obtainValuesForPublishingPostToTheUser() async {
+    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("userinfo").where('gymName', isEqualTo: _userInfo[3]).get();
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
+    for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
+      if(element['name'] == _userInfo[0] && element['email'] == _userInfo[1]) {
+        continue;
+      }
+      if(!_namesToAddingThePost.contains(element['name']) && !_emailsToAddingThePost.contains(element['email'])) {
+        _namesToAddingThePost.add(element['name']);
+        _emailsToAddingThePost.add(element['email']);
+      }
+    }
+    _nameEmailCombined = List.generate(_namesToAddingThePost.length, (index) => '${_namesToAddingThePost[index]} - ${_emailsToAddingThePost[index]}');
+    _NameEmailCombinedValue = _nameEmailCombined[0];
+    notifyListeners();
+  }
+
+  void modifySelectedEmail(String email) {
+    _NameEmailCombinedValue = email;
+    notifyListeners();
   }
 }

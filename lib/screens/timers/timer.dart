@@ -10,6 +10,9 @@ class TimeR extends StatefulWidget {
 }
 
 class _TimeRState extends State<TimeR> {
+  final _hoursTextController = TextEditingController();
+  final _minutesTextController = TextEditingController();
+  final _secondsTextController = TextEditingController();
   int hours = 0;
   int minutes = 0;
   int seconds = 0;
@@ -19,7 +22,6 @@ class _TimeRState extends State<TimeR> {
   String ttlBtn2 = "Stop";
   late int _totalSecondsRemaining;
   late Timer _timer;
-  late DateTime _startTime;
   final player = AudioPlayer();
 
   @override
@@ -32,11 +34,11 @@ class _TimeRState extends State<TimeR> {
   void _startTimer() {
     _isRunning = true;
     player.play(AssetSource('sound/whistle.wav'));
-    _startTime = DateTime.now();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         _totalSecondsRemaining--;
         if (_totalSecondsRemaining <= 0) {
+          secondsAreZero = true;
           _stopTimer();
         } else {
           secondsAreZero = false;
@@ -46,12 +48,10 @@ class _TimeRState extends State<TimeR> {
           ttlBtn2 = "Stop";
         }
       });
-      _startTime = DateTime.now();
     });
   }
 
   void _stopTimer() {
-    _timer.cancel();
     setState(() {
       _isRunning = false;
       _timer.cancel();
@@ -60,6 +60,9 @@ class _TimeRState extends State<TimeR> {
       } else {
         ttlBtn1 = "Start";
         ttlBtn2 = "Stop";
+        _hoursTextController.text = "";
+        _minutesTextController.text = "";
+        _secondsTextController.text = "";
       }
     });
     player.play(AssetSource('sound/whistle.wav'));
@@ -89,6 +92,7 @@ class _TimeRState extends State<TimeR> {
                   SizedBox(
                     width: 50,
                     child: TextField(
+                      controller: _hoursTextController,
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
@@ -106,6 +110,7 @@ class _TimeRState extends State<TimeR> {
                   SizedBox(
                     width: 50,
                     child: TextField(
+                      controller: _minutesTextController,
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
@@ -123,6 +128,7 @@ class _TimeRState extends State<TimeR> {
                   SizedBox(
                     width: 50,
                     child: TextField(
+                      controller: _secondsTextController,
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
@@ -157,7 +163,16 @@ class _TimeRState extends State<TimeR> {
                   ),
                   onPressed: () {
                     if(!_isRunning) {
-                      _startTimer();
+                      if (_hoursTextController.text.isNotEmpty || _minutesTextController.text.isNotEmpty || _secondsTextController.text.isNotEmpty) {
+                        _startTimer();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("You must fill at least one of the three fields", style: TextStyle(color: Colors.white)),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                     }
                   },
                   child: Text(ttlBtn1),
@@ -175,6 +190,9 @@ class _TimeRState extends State<TimeR> {
                       _stopTimer();
                     } else if(!_isRunning) {
                       setState(() {
+                        _hoursTextController.text = "";
+                        _minutesTextController.text = "";
+                        _secondsTextController.text = "";
                         _totalSecondsRemaining = 0;
                         secondsAreZero = true;
                       });

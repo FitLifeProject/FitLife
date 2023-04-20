@@ -114,6 +114,8 @@ class _ChronometerState extends State<Chronometer> {
                       setState(() {
                         _secondsElapsed = 0;
                         secondsAreZero = true;
+                        ttlBtn1 = "Start";
+                        ttlBtn2 = "Stop";
                       });
                     }
                   },

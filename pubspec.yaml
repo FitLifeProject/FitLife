@@ -55,6 +55,7 @@ dependencies:
   calendar_date_picker2: 0.5.2
   time_range_picker: 2.2.0
   numberpicker: ^2.1.1
+  wakelock: ^0.6.2
   # [jmpfbmx] End of fitlife dependencies
 
 dev_dependencies:

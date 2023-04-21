@@ -1,5 +1,5 @@
 import 'package:fitlife/screens/timers/chronometer.dart';
-import 'package:fitlife/screens/timers/tabata.dart';
+import 'package:fitlife/screens/timers/tabata_settings.dart';
 import 'package:fitlife/screens/timers/timer.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +55,7 @@ class _ClockState extends State<Clock> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const TabataTimer();
+                        return const TabataSettings();
                       },
                     ),
                   );

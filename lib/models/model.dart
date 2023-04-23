@@ -375,4 +375,24 @@ class Model extends ChangeNotifier {
     _NameEmailCombinedValue = email;
     notifyListeners();
   }
+
+  void addClass(String collectionName, String hour, String limit, String name) async {
+    await fb_store.collection("class-${_userInfo[3]}").doc(collectionName).set({
+      "hour": hour,
+      "limit": limit,
+      "name": name,
+      "users": []
+    });
+  }
+
+  Stream<QuerySnapshot> getClasses() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("class-${_userInfo[3]}").orderBy("hour", descending: false).snapshots();
+    return snapshots;
+  }
+
+  void bookClass(docId, bool add) async {
+    await fb_store.collection("class-${_userInfo[3]}").doc(docId).update ({
+      "users": add ? FieldValue.arrayUnion([_userInfo[1]]) : FieldValue.arrayRemove([_userInfo[1]]),
+    });
+  }
 }

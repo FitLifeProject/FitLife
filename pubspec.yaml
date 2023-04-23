@@ -51,6 +51,9 @@ dependencies:
   intl: ^0.17.0
   url_launcher: 6.0.14
   audioplayers: 3.0.1
+  table_calendar: 3.0.8
+  calendar_date_picker2: 0.5.2
+  time_range_picker: 2.2.0
   # [jmpfbmx] End of fitlife dependencies
 
 dev_dependencies:

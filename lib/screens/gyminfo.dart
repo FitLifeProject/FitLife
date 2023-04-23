@@ -1,7 +1,10 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
+import 'package:fitlife/screens/classes/add_class.dart';
+import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,6 +48,38 @@ class _GymInfoState extends State<GymInfo> {
                     MaterialPageRoute(
                       builder: (context) {
                         return Chat();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            Visibility(
+              visible: model.userInfo[3] == model.gymInfo[0] && model.userInfo[4] == "false",
+              child: IconButton(
+                icon: const Icon(Icons.calendar_month),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const ClassBooking();
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            Visibility(
+              visible: model.userInfo[3] == model.gymInfo[0] && model.userInfo[4] == "true",
+              child: IconButton(
+                icon: const FaIcon(FontAwesomeIcons.calendarPlus),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const AddClass();
                       },
                     ),
                   );

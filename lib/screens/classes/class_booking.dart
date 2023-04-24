@@ -43,6 +43,10 @@ class _ClassBookingState extends State<ClassBooking> {
             calendarStyle: const CalendarStyle(
               outsideDaysVisible: false,
             ),
+            headerStyle: const HeaderStyle(
+              formatButtonVisible: false,
+              titleCentered: true
+            ),
           ),
           StreamBuilder(
             stream: model.getClasses(),

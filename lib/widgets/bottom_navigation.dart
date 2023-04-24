@@ -23,7 +23,7 @@ Widget BottomNavigation(model, context) {
           icon: Icon(Icons.home, color: (model.selectedScreen == 0) ? Theme.of(context).primaryColorLight : Theme.of(context).primaryColorDark),
           onPressed: () {
             model.changeScreen(0);
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
@@ -65,7 +65,7 @@ Widget BottomNavigation(model, context) {
           icon: Icon(Icons.account_circle, color: (model.selectedScreen == 1) ? Theme.of(context).primaryColorLight : Theme.of(context).primaryColorDark),
           onPressed: () {
             model.changeScreen(1);
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {
@@ -86,7 +86,7 @@ Widget BottomNavigation(model, context) {
           icon: Icon(Icons.menu, color: (model.selectedScreen == 2) ? Theme.of(context).primaryColorLight : Theme.of(context).primaryColorDark),
           onPressed: () {
             model.changeScreen(2);
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) {

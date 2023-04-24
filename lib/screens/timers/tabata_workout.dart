@@ -58,7 +58,6 @@ class _TabataWorkoutState extends State<TabataWorkout> {
         return Colors.green;
       case WorkoutState.starting:
       case WorkoutState.resting:
-        return Colors.blue;
       case WorkoutState.breaking:
         return Colors.red;
       default:

@@ -53,74 +53,86 @@ class _ClassBookingState extends State<ClassBooking> {
             builder: (context, snapshot) {
               final classes = (snapshot.data?.docs ?? []);
               final filteredClasses = classes.where((cla) => cla.id.contains(today.toString().split(" ")[0])).toList();
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: filteredClasses.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String documentName = filteredClasses[index].id;
-                  if(snapshot.hasError) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else {
-                    if(today.isBefore(DateTime.now())) {
-                      return IgnorePointer(
-                        ignoring: true,
-                        child: AbsorbPointer(
-                          absorbing: true,
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                child: Container(
-                                  color: Theme.of(context).backgroundColor.withOpacity(0.5),
-                                ),
-                              ),
-                              ListTile(
-                                title: Text("${filteredClasses[index]['name']}"),
-                                subtitle: Text("${filteredClasses[index]['hour']}"),
-                                trailing: TextButton(
-                                  onPressed: () {
-                                    if(filteredClasses[index]['users'].contains(model.userInfo[1])) {
-                                      model.bookClass(documentName, false);
-                                    } else {
-                                      model.bookClass(documentName, true);
-                                    }
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Text(!filteredClasses[index]['users'].contains(model.userInfo[1]) ? "Book" : "Cancel book"),
-                                      Text("${filteredClasses[index]['users'].length}/${filteredClasses[index]['limit']}"),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ]
-                          )
-                        ),
-                      );
+              if(filteredClasses.isNotEmpty) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: filteredClasses.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    String documentName = filteredClasses[index].id;
+                    if(snapshot.hasError) {
+                      return const Center(child: CircularProgressIndicator());
                     } else {
-                      return ListTile(
-                        title: Text("${filteredClasses[index]['name']}"),
-                        subtitle: Text("${filteredClasses[index]['hour']}"),
-                        trailing: TextButton(
-                          onPressed: () {
-                            if(filteredClasses[index]['users'].contains(model.userInfo[1])) {
-                              model.bookClass(documentName, false);
-                            } else {
-                              model.bookClass(documentName, true);
-                            }
-                          },
-                          child: Column(
-                            children: [
-                              Text(!filteredClasses[index]['users'].contains(model.userInfo[1]) ? "Book" : "Cancel book"),
-                              Text("${filteredClasses[index]['users'].length}/${filteredClasses[index]['limit']}"),
-                            ],
+                      if(today.isBefore(DateTime.now().subtract(const Duration(days: 1)))) {
+                        return IgnorePointer(
+                          ignoring: true,
+                          child: AbsorbPointer(
+                              absorbing: true,
+                              child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: Container(
+                                        color: Theme.of(context).backgroundColor.withOpacity(0.5),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text("${filteredClasses[index]['name']}"),
+                                      subtitle: Text("${filteredClasses[index]['hour']}"),
+                                      trailing: TextButton(
+                                        onPressed: () {
+                                          if(filteredClasses[index]['users'].contains(model.userInfo[1])) {
+                                            model.bookClass(documentName, false);
+                                          } else {
+                                            model.bookClass(documentName, true);
+                                          }
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Text(!filteredClasses[index]['users'].contains(model.userInfo[1]) ? "Book" : "Cancel book"),
+                                            Text("${filteredClasses[index]['users'].length}/${filteredClasses[index]['limit']}"),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ]
+                              )
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        return ListTile(
+                          title: Text("${filteredClasses[index]['name']}"),
+                          subtitle: Text("${filteredClasses[index]['hour']}"),
+                          trailing: TextButton(
+                            onPressed: () {
+                              if(filteredClasses[index]['users'].contains(model.userInfo[1])) {
+                                model.bookClass(documentName, false);
+                              } else {
+                                model.bookClass(documentName, true);
+                              }
+                            },
+                            child: Column(
+                              children: [
+                                Text(!filteredClasses[index]['users'].contains(model.userInfo[1]) ? "Book" : "Cancel book"),
+                                Text("${filteredClasses[index]['users'].length}/${filteredClasses[index]['limit']}"),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
                     }
-                  }
-                },
-              );
+                  },
+                );
+              } else {
+                return const ListTile(
+                  title: Text(
+                    'There are no classes available for this day',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              }
             }
           ),
         ]

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
+
 class Tabata {
   int sets;
   int reps;
@@ -62,6 +64,9 @@ class Workout {
   /// Current rep
   int _rep = 0;
 
+  /// Implement Audio Player
+  final player = AudioPlayer();
+
   Workout(this._config, this._onStateChange);
 
   /// Starts or resumes the workout
@@ -96,11 +101,9 @@ class Workout {
 
     if (_timeLeft.inSeconds == 1) {
       _nextStep();
+      player.play(AssetSource('sound/whistle.wav'));
     } else {
       _timeLeft -= Duration(seconds: 1);
-      if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
-        // _playSound(_settings.countdownPip);
-      }
     }
 
     _onStateChange();
@@ -126,13 +129,6 @@ class Workout {
     }
   }
 
-  // Future _playSound(String sound) {
-  //   if (_settings.silentMode) {
-  //     return Future.value();
-  //   }
-  //   return player.play(sound, mode: PlayerMode.LOW_LATENCY);
-  // }
-
   _startRest() {
     _step = WorkoutState.resting;
     if (_config.restTime.inSeconds == 0) {
@@ -140,14 +136,14 @@ class Workout {
       return;
     }
     _timeLeft = _config.restTime;
-    // _playSound(_settings.startRest);
+    player.play(AssetSource('sound/whistle.wav'));
   }
 
   _startRep() {
     _rep++;
     _step = WorkoutState.exercising;
     _timeLeft = _config.exerciseTime;
-    // _playSound(_settings.startRep);
+    player.play(AssetSource('sound/whistle.wav'));
   }
 
   _startBreak() {
@@ -157,7 +153,7 @@ class Workout {
       return;
     }
     _timeLeft = _config.breakTime;
-    // _playSound(_settings.startBreak);
+    player.play(AssetSource('sound/whistle.wav'));
   }
 
   _startSet() {
@@ -165,21 +161,14 @@ class Workout {
     _rep = 1;
     _step = WorkoutState.exercising;
     _timeLeft = _config.exerciseTime;
-    // _playSound(_settings.startSet);
+    player.play(AssetSource('sound/whistle.wav'));
   }
 
   _finish() {
     _timer?.cancel();
     _step = WorkoutState.finished;
     _timeLeft = Duration(seconds: 0);
-    // _playSound(_settings.endWorkout).then((p) {
-    //   if (p == null) {
-    //     return;
-    //   }
-    //   p.onPlayerCompletion.first.then((_) {
-    //     _playSound(_settings.endWorkout);
-    //   });
-    // });
+    player.play(AssetSource('sound/whistle.wav'));
   }
 
   get config => _config;

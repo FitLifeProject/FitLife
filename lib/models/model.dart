@@ -385,6 +385,11 @@ class Model extends ChangeNotifier {
     });
   }
 
+  Stream<QuerySnapshot> getMyClasses() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("class-${_userInfo[3]}").where("users", arrayContains: _userInfo[1]).snapshots();
+    return snapshots;
+  }
+
   Stream<QuerySnapshot> getClasses() {
     Stream<QuerySnapshot> snapshots = fb_store.collection("class-${_userInfo[3]}").orderBy("hour", descending: false).snapshots();
     return snapshots;
@@ -394,5 +399,10 @@ class Model extends ChangeNotifier {
     await fb_store.collection("class-${_userInfo[3]}").doc(docId).update ({
       "users": add ? FieldValue.arrayUnion([_userInfo[1]]) : FieldValue.arrayRemove([_userInfo[1]]),
     });
+  }
+
+  Stream<QuerySnapshot> getMyGymInfo() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("gyminfo").where("name", isEqualTo: _userInfo[3]).snapshots();
+    return snapshots;
   }
 }

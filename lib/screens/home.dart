@@ -1,6 +1,8 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/chat.dart';
+import 'package:fitlife/screens/classes/booked_classes.dart';
+import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/gyminfo.dart';
 import 'package:fitlife/screens/gymresults.dart';
 import 'package:fitlife/screens/menu.dart';
@@ -107,6 +109,83 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            StreamBuilder(
+              stream: model.getMyGymInfo(),
+              builder: (context, snapshot) {
+                final myGymInfo = (snapshot.data?.docs ?? []);
+                String gymName = myGymInfo[0].get('name');
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                model.getGymInfo(gymName);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const GymInfo();
+                                    },
+                                  ),
+                                );
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius: 50,
+                              ),
+                            ),
+                            Text(gymName),
+                          ],
+                        ),
+                        const SizedBox(width: 10,),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.calendar_month),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const ClassBooking();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            const Text("Calendar"),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.timelapse),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const BookedClasses();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            const Text("Booked"),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            ),
             StreamBuilder(
               stream: model.getPosts(),
               builder: (context, snapshot) {

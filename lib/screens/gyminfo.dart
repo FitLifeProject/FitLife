@@ -3,6 +3,7 @@ import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/classes/add_class.dart';
 import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/chat.dart';
+import 'package:fitlife/screens/upload_images.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -100,9 +101,23 @@ class _GymInfoState extends State<GymInfo> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const CircleAvatar(
-                        backgroundColor: Colors.blue,
-                        radius: 50
+                    GestureDetector(
+                      onLongPress: () {
+                        if(model.userInfo[3] == model.gymInfo[0] && model.userInfo[4] == "true") {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const ImgurUploader();
+                              },
+                            ),
+                          );
+                        }
+                      },
+                      child: const CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          radius: 50
+                      ),
                     ),
                     const SizedBox(width: 10,),
                     Column(

@@ -114,8 +114,9 @@ class _GymInfoState extends State<GymInfo> {
                           );
                         }
                       },
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                           backgroundColor: Colors.blue,
+                          backgroundImage: (model.gymInfo[6].isNotEmpty) ? NetworkImage(model.gymInfo[6]) : null,
                           radius: 50
                       ),
                     ),

@@ -213,6 +213,7 @@ class Model extends ChangeNotifier {
         "activeHours": activeHours,
         "price": price,
         "daysThatIsOpened": weekdays,
+        "gymLogo": "",
       });
     }
   }
@@ -228,8 +229,16 @@ class Model extends ChangeNotifier {
     _gymInfo.add(doc.data()!["price"].toString());
     _gymInfo.add(doc.data()!["admin"]);
     _gymInfo.add(doc.data()!["daysThatIsOpened"]);
+    _gymInfo.add(doc.data()!["gymLogo"]);
     notifyListeners();
     return _gymInfo;
+  }
+
+  uploadGymPFP(String str) async {
+    await fb_store.collection("gyminfo").doc(_gymInfo[0]).update({
+      "gymLogo": str,
+    });
+    _gymInfo.insert(6, str);
   }
 
   updateToggleButton(List lBool, int index, List lString) {

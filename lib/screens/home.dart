@@ -172,8 +172,9 @@ class _HomeState extends State<Home> {
                                           ),
                                         );
                                       },
-                                      child: const CircleAvatar(
+                                      child: CircleAvatar(
                                         backgroundColor: Colors.blue,
+                                        backgroundImage: (myGymInfo[0].get("gymLogo").isNotEmpty) ? NetworkImage(myGymInfo[0].get("gymLogo")) : null,
                                         radius: 50,
                                       ),
                                     ),

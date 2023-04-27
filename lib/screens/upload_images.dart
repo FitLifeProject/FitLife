@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fitlife/models/model.dart';
 import 'package:flimer/flimer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ImgurUploader extends StatefulWidget {
   const ImgurUploader({super.key});
@@ -24,18 +26,19 @@ class _ImgurUploaderState extends State<ImgurUploader> {
     }
   }
 
-  Future<void> _uploadImage() async {
+  Future<void> _uploadImage(model) async {
     final bytes = await _imageFile!.readAsBytes();
     final base64Image = base64.encode(bytes);
 
     final response = await http.post(
       Uri.parse('https://api.imgur.com/3/image'),
-      headers: {'Authorization': 'Client-ID YOUR_CLIENT_ID'},
+      headers: {'Authorization': 'Client-ID 4236173c2587578'},
       body: {'image': base64Image},
     );
 
     final responseData = jsonDecode(response.body)['data'];
     final imgUrl = responseData['link'];
+    model.uploadGymPFP(imgUrl);
 
     setState(() {
       _imgurUrl = imgUrl;
@@ -44,6 +47,7 @@ class _ImgurUploaderState extends State<ImgurUploader> {
 
   @override
   Widget build(BuildContext context) {
+    var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Imgur Uploader'),
@@ -62,7 +66,9 @@ class _ImgurUploaderState extends State<ImgurUploader> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _imageFile != null ? _uploadImage : null,
+              onPressed: () {
+                _imageFile != null ? _uploadImage(model) : null;
+              },
               child: const Text('Upload Image'),
             ),
             const SizedBox(height: 16.0),

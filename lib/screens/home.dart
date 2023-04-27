@@ -141,8 +141,8 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               if(model.userInfo.isEmpty)...[
-                const Center(
-                  child: CircularProgressIndicator(),
+                Center(
+                  child: Container(),
                 )
               ] else...[
                 StreamBuilder(
@@ -223,8 +223,8 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Center(
+                          child: Container(),
                         );
                       }
                     }

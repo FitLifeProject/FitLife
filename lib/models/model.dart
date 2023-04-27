@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fitlife/screens/loginregister.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Model extends ChangeNotifier {
   FirebaseFirestore fb_store = FirebaseFirestore.instance;
@@ -132,9 +134,16 @@ class Model extends ChangeNotifier {
   }
 
   signOut(BuildContext context) async {
-    await auth.signOut();
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    notifyListeners();
+    final navigator = Navigator.of(context);
+    processingAccState(0);
+    await FirebaseAuth.instance.signOut();
+    _user = null;
+    navigator.pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const LoginRegister(),
+      ),
+          (route) => false,
+    );
   }
 
   resetPassword({required String email}) async {

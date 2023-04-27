@@ -157,9 +157,9 @@ class _LoginRegisterState extends State<LoginRegister> {
 
                     model.processingData(false);
 
-                    if (user != null) {
-                      _emailTextController.text = "";
-                      _passwordTextController.text = "";
+                    if (_emailTextController.text.isNotEmpty && _passwordTextController.text.isNotEmpty && user != null) {
+                      _emailTextController.clear();
+                      _passwordTextController.clear();
                       navigator.push(
                         MaterialPageRoute(
                           builder: (context) {
@@ -291,7 +291,7 @@ class _LoginRegisterState extends State<LoginRegister> {
                           gender,
                         );
 
-                        if(model.registered == 2) {
+                        if(_nameTextController.text.isNotEmpty && _emailTextController.text.isNotEmpty && model.registered == 2) {
                           _nameTextController.text = "";
                           _emailTextController.text = "";
                           _passwordTextController.text = "";
@@ -469,15 +469,16 @@ class _LoginRegisterState extends State<LoginRegister> {
                       _gymLocationController.text = "";
                       _activeHoursController.text = "";
                       _priceController.text = "";
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const Home();
-                          },
-                        ),
-                      );
+                      if(_nameTextController.text.isNotEmpty && _emailTextController.text.isNotEmpty) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const Home();
+                            },
+                          ),
+                        );
+                      }
                     } else {
                       model.processingData(false);
                     }

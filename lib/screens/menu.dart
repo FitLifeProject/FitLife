@@ -96,7 +96,17 @@ class _MenuState extends State<Menu> {
                 title: Text("Clock"),
                 trailing: Icon(Icons.arrow_forward)
               ),
-            )
+            ),
+            GestureDetector(
+              onTap: () async {
+                await model.signOut(context);
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.person_outlined),
+                  title: Text("Logout"),
+                  trailing: Icon(Icons.logout_outlined)
+              ),
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavigation(model, context),

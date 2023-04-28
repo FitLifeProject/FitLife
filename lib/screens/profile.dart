@@ -3,9 +3,11 @@ import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/exercise_posts.dart';
+import 'package:fitlife/screens/upload_images.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,7 +33,7 @@ class _ProfileState extends State<Profile> {
             onPressed: () {
             },
           ),
-          title: Text("Profile of: ${model.userInfo[0]}"),
+          title: const Text("Profile"),
           centerTitle: true,
           actions: [
             IconButton(
@@ -84,6 +86,59 @@ class _ProfileState extends State<Profile> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 2.0),
+                child: Card(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10,),
+                      GestureDetector(
+                        onLongPress: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ImgurUploader(pfp: true,);
+                              },
+                            ),
+                          );
+                        },
+                        child: CircleAvatar(
+                            backgroundColor: Colors.blue,
+                            backgroundImage: (model.userInfo[5].isNotEmpty) ? NetworkImage(model.userInfo[5]) : null,
+                            radius: 50
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      Text(model.userInfo[0]),
+                      const SizedBox(height: 10,),
+                      Text(model.userInfo[6]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(icon: const Icon(FontAwesomeIcons.medal), onPressed: () {}),
+                              const Text("PR's")
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(icon: const Icon(FontAwesomeIcons.dumbbell), onPressed: () {}),
+                              const Text("Benchmarks")
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ),
+              ),
               StreamBuilder(
                   stream: model.getPosts(),
                   builder: (context, snapshot) {
@@ -110,7 +165,7 @@ class _ProfileState extends State<Profile> {
                             return const Center(child: CircularProgressIndicator());
                           } else {
                             return Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0, bottom: 2.0),
                               child: Card(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

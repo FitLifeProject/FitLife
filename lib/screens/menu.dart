@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:fitlife/models/model.dart';
+import 'package:fitlife/profile_settings.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/clock.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
@@ -95,6 +96,23 @@ class _MenuState extends State<Menu> {
                 leading: Icon(Icons.watch_later_outlined),
                 title: Text("Clock"),
                 trailing: Icon(Icons.arrow_forward)
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const ProfileSettings();
+                    },
+                  ),
+                );
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.person_outlined),
+                  title: Text("Profile Settings"),
+                  trailing: Icon(Icons.arrow_forward)
               ),
             ),
             GestureDetector(

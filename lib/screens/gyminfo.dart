@@ -108,7 +108,7 @@ class _GymInfoState extends State<GymInfo> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const ImgurUploader();
+                                return ImgurUploader();
                               },
                             ),
                           );

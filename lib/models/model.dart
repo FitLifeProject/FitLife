@@ -168,7 +168,43 @@ class Model extends ChangeNotifier {
       "email": email,
       "gymName": "",
       "admin": (email.contains("gym") || email.contains("admin")) ? true : false,
+      "userPfp": "",
+      "aboutMe": "",
     });
+  }
+
+  void modifyUserInfo({String name = "", String gender = "", String aboutMe = "", String userPfp = ""}) async {
+    if(name.isNotEmpty && gender.isEmpty && aboutMe.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+        "name": name,
+      });
+      _userInfo.insert(0, name);
+    } else if(gender.isNotEmpty && name.isEmpty && aboutMe.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+        "gender": gender,
+      });
+      _userInfo.insert(2, gender);
+    } else if(aboutMe.isNotEmpty && name.isEmpty && gender.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+        "aboutMe": aboutMe,
+      });
+      _userInfo.insert(6, aboutMe);
+    } else if(userPfp.isNotEmpty && name.isEmpty && gender.isEmpty && aboutMe.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+        "userPfp": userPfp,
+      });
+      _userInfo.insert(5, userPfp);
+    } else if(name.isNotEmpty && gender.isNotEmpty && aboutMe.isNotEmpty && userPfp.isEmpty) {
+      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+        "name": name,
+        "gender": gender,
+        "aboutMe": aboutMe,
+      });
+      _userInfo.insert(0, name);
+      _userInfo.insert(2, gender);
+      _userInfo.insert(6, aboutMe);
+    }
+    notifyListeners();
   }
 
   getUserInfo() async {
@@ -178,6 +214,8 @@ class Model extends ChangeNotifier {
     _userInfo.add(doc.data()!["gender"]);
     _userInfo.add(doc.data()!["gymName"]);
     _userInfo.add(doc.data()!["admin"].toString());
+    _userInfo.add(doc.data()!["userPfp"]);
+    _userInfo.add(doc.data()!["aboutMe"]);
     notifyListeners();
     return _userInfo;
   }

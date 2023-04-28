@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ImgurUploader extends StatefulWidget {
-  const ImgurUploader({super.key});
+  var pfp;
+  ImgurUploader({super.key, this.pfp = false});
 
   @override
   State<ImgurUploader> createState() => _ImgurUploaderState();
@@ -38,7 +39,12 @@ class _ImgurUploaderState extends State<ImgurUploader> {
 
     final responseData = jsonDecode(response.body)['data'];
     final imgUrl = responseData['link'];
-    model.uploadGymPFP(imgUrl);
+    if(!widget.pfp) {
+      model.uploadGymPFP(imgUrl);
+    } else {
+      model.modifyUserInfo(userPfp: imgUrl);
+    }
+
 
     setState(() {
       _imgurUrl = imgUrl;

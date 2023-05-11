@@ -109,87 +109,97 @@ class _MenuState extends State<Menu> {
               ),
             ]
         ),
-        body: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const TabataSettings();
-                    },
-                  ),
-                );
-              },
-              child: ListTile(
-                leading: const Icon(Icons.watch_later_outlined),
-                title: Text(clockInformationTitle[0]),
-                trailing: clockInformationButton(0)
-              )
-            ),
-            GestureDetector(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Text("Clock", style: Theme.of(context).textTheme.headline6),
+              ),
+              GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const Chronometer();
+                        return const TabataSettings();
                       },
                     ),
                   );
                 },
                 child: ListTile(
-                    leading: const Icon(Icons.watch_later_outlined),
-                    title: Text(clockInformationTitle[1]),
-                    trailing: clockInformationButton(1)
+                  leading: const Icon(Icons.watch_later_outlined),
+                  title: Text(clockInformationTitle[0]),
+                  trailing: clockInformationButton(0)
                 )
-            ),
-            GestureDetector(
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const Chronometer();
+                        },
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                      leading: const Icon(Icons.watch_later_outlined),
+                      title: Text(clockInformationTitle[1]),
+                      trailing: clockInformationButton(1)
+                  )
+              ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const TimeR();
+                        },
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                      leading: const Icon(Icons.watch_later_outlined),
+                      title: Text(clockInformationTitle[2]),
+                      trailing: clockInformationButton(2)
+                  )
+              ),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: Text("Profile", style: Theme.of(context).textTheme.headline6),
+              ),
+              GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const TimeR();
+                        return const ProfileSettings();
                       },
                     ),
                   );
                 },
-                child: ListTile(
-                    leading: const Icon(Icons.watch_later_outlined),
-                    title: Text(clockInformationTitle[2]),
-                    trailing: clockInformationButton(2)
-                )
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const ProfileSettings();
-                    },
-                  ),
-                );
-              },
-              child: const ListTile(
-                  leading: Icon(Icons.person_outlined),
-                  title: Text("Profile Settings"),
-                  trailing: Icon(Icons.arrow_forward)
+                child: const ListTile(
+                    leading: Icon(Icons.person_outlined),
+                    title: Text("Profile Settings"),
+                    trailing: Icon(Icons.arrow_forward)
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () async {
-                await model.signOut(context);
-              },
-              child: const ListTile(
-                  leading: Icon(Icons.person_outlined),
-                  title: Text("Logout"),
-                  trailing: Icon(Icons.logout_outlined)
+              GestureDetector(
+                onTap: () async {
+                  await model.signOut(context);
+                },
+                child: const ListTile(
+                    leading: Icon(Icons.person_outlined),
+                    title: Text("Logout"),
+                    trailing: Icon(Icons.logout_outlined)
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigation(model, context),
       ),

@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:fitlife/models/model.dart';
+import 'package:fitlife/resources/clock_information.dart';
 import 'package:fitlife/screens/profile_settings.dart';
 import 'package:fitlife/screens/chat.dart';
-import 'package:fitlife/screens/clock.dart';
+import 'package:fitlife/screens/timers/chronometer.dart';
+import 'package:fitlife/screens/timers/tabata_settings.dart';
+import 'package:fitlife/screens/timers/timer.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +19,33 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  bool _showInformation = false;
+  int _infoIndex = 0;
+
+  clockInformationButton(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _showInformation = !_showInformation;
+          if(index > -1) {
+            _infoIndex = index;
+          }
+        });
+        showDialog(
+          context: context,
+          builder: (context) => GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: AlertDialog(
+              title: Title(color: Theme.of(context).primaryColorLight, child: Text(clockInformationTitle[_infoIndex], style: const TextStyle(fontSize: 20))),
+              content: Text(clockInformation[_infoIndex], style: const TextStyle(fontSize: 16)),
+            ),
+          ),
+        );
+      },
+      child: Icon(Icons.info_outline, color: Theme.of(context).primaryColorLight),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var model = context.watch<Model>();
@@ -83,20 +113,54 @@ class _MenuState extends State<Menu> {
           children: [
             GestureDetector(
               onTap: () {
-                  Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const Clock();
+                      return const TabataSettings();
                     },
                   ),
                 );
               },
-              child: const ListTile(
-                leading: Icon(Icons.watch_later_outlined),
-                title: Text("Clock"),
-                trailing: Icon(Icons.arrow_forward)
-              ),
+              child: ListTile(
+                leading: const Icon(Icons.watch_later_outlined),
+                title: Text(clockInformationTitle[0]),
+                trailing: clockInformationButton(0)
+              )
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Chronometer();
+                      },
+                    ),
+                  );
+                },
+                child: ListTile(
+                    leading: const Icon(Icons.watch_later_outlined),
+                    title: Text(clockInformationTitle[1]),
+                    trailing: clockInformationButton(1)
+                )
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const TimeR();
+                      },
+                    ),
+                  );
+                },
+                child: ListTile(
+                    leading: const Icon(Icons.watch_later_outlined),
+                    title: Text(clockInformationTitle[2]),
+                    trailing: clockInformationButton(2)
+                )
             ),
             GestureDetector(
               onTap: () {

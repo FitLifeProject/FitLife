@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:fitlife/models/model.dart';
-import 'package:fitlife/profile_settings.dart';
+import 'package:fitlife/screens/profile_settings.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/clock.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';

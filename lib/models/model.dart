@@ -60,6 +60,44 @@ class Model extends ChangeNotifier {
   List<String> get nameEmailCombined => _nameEmailCombined;
   String get nameEmailCombinedValue => _NameEmailCombinedValue;
 
+  /*
+   * This is a very dirty haxx. I never recommend using it under any circumstances.
+   * As we were having troubles for logging out from Firebase, I just thought
+   * on a workaround and this is the best workaround I have found so far.
+   */
+  void clearVariables() {
+    _isProcessing = false;
+    _postToAddIsForAdmin = true;
+    _registered = 0;
+    _users = 0;
+    _selectedScreen = 0;
+    _addingPostExerciseScreen = 0;
+    _user = null;
+    _name = "";
+    _str = "";
+    _spinnerVal = "24H";
+    _sender = [];
+    _userInfo = [];
+    _gymInfo = [];
+    _gNames = [];
+    uniqueSet = <String>{};
+    _selectedWeekdays = [
+      "Monday,",
+      "Tuesday,",
+      "Wednesday,",
+      "Thursday,",
+      "Friday,",
+      "Saturday,",
+      "Sunday,"
+    ];
+    _weekdays = "";
+    _postsExercises = [];
+    _namesToAddingThePost = [];
+    _emailsToAddingThePost = [];
+    _nameEmailCombined = [];
+    _NameEmailCombinedValue = "";
+  }
+
   processingData(bool process) {
     if(process) {
       _isProcessing = true;
@@ -137,7 +175,7 @@ class Model extends ChangeNotifier {
     final navigator = Navigator.of(context);
     processingAccState(0);
     await FirebaseAuth.instance.signOut();
-    _user = null;
+    clearVariables();
     navigator.pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const LoginRegister(),

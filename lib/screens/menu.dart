@@ -42,7 +42,7 @@ class _MenuState extends State<Menu> {
           ),
         );
       },
-      child: Icon(Icons.info_outline, color: Theme.of(context).primaryColorLight),
+      child: const Icon(Icons.info_outline),
     );
   }
 

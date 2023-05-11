@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/chat.dart';
-import 'package:fitlife/screens/exercise_posts.dart';
+import 'package:fitlife/screens/exercise/benchmark.dart';
 import 'package:fitlife/screens/upload_images.dart';
 import 'package:fitlife/screens/exercise/pr.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
@@ -142,7 +142,19 @@ class _ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              IconButton(icon: const Icon(FontAwesomeIcons.dumbbell), onPressed: () {}),
+                              IconButton(
+                                  icon: const Icon(FontAwesomeIcons.dumbbell),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Benchmark();
+                                        },
+                                      ),
+                                    );
+                                  }
+                              ),
                               const Text("Benchmarks")
                             ],
                           ),

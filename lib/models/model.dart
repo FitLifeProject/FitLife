@@ -461,4 +461,20 @@ class Model extends ChangeNotifier {
     Stream<QuerySnapshot> snapshots = fb_store.collection("gyminfo").where("name", isEqualTo: _userInfo[3]).snapshots();
     return snapshots;
   }
+
+  void sendMyBenchmarks(String exercises, String reps, String sets, String previous_reps, String previous_sets) {
+    fb_store.collection("benchmark-user_${_userInfo[1]}").add({
+      "exercises": exercises,
+      "previous_reps": previous_reps,
+      "previous_sets": previous_sets,
+      "reps": reps,
+      "sets": sets,
+      "timestamp": FieldValue.serverTimestamp(),
+    });
+  }
+
+  Stream<QuerySnapshot> getBenchmarks() {
+    Stream<QuerySnapshot> snapshots = fb_store.collection("benchmark-user_${_userInfo[1]}").orderBy("timestamp", descending: false).snapshots();
+    return snapshots;
+  }
 }

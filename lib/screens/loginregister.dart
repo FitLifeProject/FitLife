@@ -77,15 +77,18 @@ class _LoginRegisterState extends State<LoginRegister> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Center(
-              child: Text(
-            "FITLIFE",
-            style: GoogleFonts.russoOne(
+            child: Text(
+              "FITLIFE",
+              style: GoogleFonts.russoOne(
                 textStyle: const TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.italic,
-                    letterSpacing: 5)),
-          )),
+                    letterSpacing: 5),
+                color: Colors.white
+              ),
+            ),
+          ),
           const SizedBox(height: 16.0),
           if (model.registered == 1) ...[
             Form(
@@ -102,9 +105,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
@@ -119,9 +130,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Password",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 24.0),
                 ],
@@ -184,7 +203,7 @@ class _LoginRegisterState extends State<LoginRegister> {
               ],
             ),
             TextButton(
-              child: const Text("Don't you remember your password?"),
+              child: const Text("Don't you remember your password?", style: TextStyle(color: Color.fromRGBO(164, 201, 238, 1))),
               onPressed: () {
                 model.processingAccState(4);
               },
@@ -201,9 +220,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Name",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
@@ -216,9 +243,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
@@ -233,9 +268,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Password",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 24.0),
                   ToggleButtons(
@@ -333,9 +376,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Gym Name",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 16.0),
                   TextFormField(
@@ -344,9 +395,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Location (Ex: 3609 Driftwood Road, Portland)",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 4.0),
                   Container(
@@ -406,9 +465,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                         hintText: "Ex: 10:00-3:00AM 5:00-10:00PM",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.0),
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                         ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                        ),
+                        hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 24.0),
@@ -421,9 +488,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                       hintText: "Price",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.0),
-                        borderSide: const BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                       ),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                      ),
+                      hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                   const SizedBox(height: 16.0),
                 ],
@@ -511,9 +586,17 @@ class _LoginRegisterState extends State<LoginRegister> {
                         hintText: "Email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(6.0),
-                          borderSide: const BorderSide(color: Colors.white),
+                          borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
                         ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
+                        ),
+                        hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
                       ),
+                      style: const TextStyle(color: Colors.white),
                     ),
                     const SizedBox(height: 16.0),
                   ]

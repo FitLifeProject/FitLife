@@ -12,7 +12,7 @@ void main() async {
   runApp(ChangeNotifierProvider(
       create: (context) => Model(),
       builder: (context, child) {
-        return Init();
+        return const Init();
       }
     )
   );
@@ -45,7 +45,7 @@ class _InitState extends State<Init> {
           ),
           themeMode: ThemeMode.system,
           debugShowCheckedModeBanner: false,
-          home: LoginRegister(),
+          home: const LoginRegister(),
         );
       },
     );

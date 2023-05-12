@@ -57,6 +57,7 @@ dependencies:
   numberpicker: ^2.1.1
   wakelock: ^0.6.2
   flimer: 1.0.1
+  http: 0.13.5
   # [jmpfbmx] End of fitlife dependencies
 
 dev_dependencies:

@@ -26,7 +26,7 @@ class _BenchmarkState extends State<Benchmark> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,

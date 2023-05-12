@@ -29,10 +29,10 @@ class Tabata {
 Tabata get defaultTabata => Tabata(
   sets: 5,
   reps: 5,
-  startDelay: Duration(seconds: 10),
-  exerciseTime: Duration(seconds: 20),
-  restTime: Duration(seconds: 10),
-  breakTime: Duration(seconds: 60),
+  startDelay: const Duration(seconds: 10),
+  exerciseTime: const Duration(seconds: 20),
+  restTime: const Duration(seconds: 10),
+  breakTime: const Duration(seconds: 60),
 );
 
 String formatTime(Duration duration) {
@@ -44,10 +44,10 @@ String formatTime(Duration duration) {
 enum WorkoutState { initial, starting, exercising, resting, breaking, finished }
 
 class Workout {
-  Tabata _config;
+  final Tabata _config;
 
   /// Callback for when the workout's state has changed.
-  Function _onStateChange;
+  final Function _onStateChange;
 
   WorkoutState _step = WorkoutState.initial;
 
@@ -56,7 +56,7 @@ class Workout {
   /// Time left in the current step
   late Duration _timeLeft;
 
-  Duration _totalTime = Duration(seconds: 0);
+  Duration _totalTime = const Duration(seconds: 0);
 
   /// Current set
   int _set = 0;
@@ -79,7 +79,7 @@ class Workout {
         _timeLeft = _config.startDelay;
       }
     }
-    _timer = Timer.periodic(Duration(seconds: 1), _tick);
+    _timer = Timer.periodic(const Duration(seconds: 1), _tick);
     _onStateChange();
   }
 
@@ -96,14 +96,14 @@ class Workout {
 
   _tick(Timer timer) {
     if (_step != WorkoutState.starting) {
-      _totalTime += Duration(seconds: 1);
+      _totalTime += const Duration(seconds: 1);
     }
 
     if (_timeLeft.inSeconds == 1) {
       _nextStep();
       player.play(AssetSource('sound/whistle.wav'));
     } else {
-      _timeLeft -= Duration(seconds: 1);
+      _timeLeft -= const Duration(seconds: 1);
     }
 
     _onStateChange();
@@ -167,7 +167,7 @@ class Workout {
   _finish() {
     _timer?.cancel();
     _step = WorkoutState.finished;
-    _timeLeft = Duration(seconds: 0);
+    _timeLeft = const Duration(seconds: 0);
     player.play(AssetSource('sound/whistle.wav'));
   }
 

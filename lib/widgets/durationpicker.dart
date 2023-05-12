@@ -8,27 +8,29 @@ class DurationPickerDialog extends StatefulWidget {
   final Widget confirmWidget;
   final Widget cancelWidget;
 
-  DurationPickerDialog({
+  const DurationPickerDialog({
+    super.key,
     required this.initialDuration,
     required this.title,
     this.titlePadding,
     Widget? confirmWidget,
     Widget? cancelWidget,
-  })  : confirmWidget = confirmWidget ?? Text('OK'),
-        cancelWidget = cancelWidget ?? Text('CANCEL');
+  })  : confirmWidget = confirmWidget ?? const Text('OK'),
+        cancelWidget = cancelWidget ?? const Text('CANCEL');
 
   @override
-  State<StatefulWidget> createState() =>
-      _DurationPickerDialogState(initialDuration);
+  State<StatefulWidget> createState() => _DurationPickerDialogState();
 }
 
 class _DurationPickerDialogState extends State<DurationPickerDialog> {
   late int minutes;
   late int seconds;
 
-  _DurationPickerDialogState(Duration initialDuration) {
-    minutes = initialDuration.inMinutes;
-    seconds = initialDuration.inSeconds % Duration.secondsPerMinute;
+  @override
+  void initState() {
+    super.initState();
+    minutes = widget.initialDuration.inMinutes;
+    seconds = widget.initialDuration.inSeconds % Duration.secondsPerMinute;
   }
 
   @override
@@ -44,12 +46,12 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
           maxValue: 10,
           zeroPad: true,
           onChanged: (value) {
-            this.setState(() {
+            setState(() {
               minutes = value;
             });
           },
         ),
-        Text(
+        const Text(
           ':',
           style: TextStyle(fontSize: 30),
         ),
@@ -60,7 +62,7 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
           maxValue: 59,
           zeroPad: true,
           onChanged: (value) {
-            this.setState(() {
+            setState(() {
               seconds = value;
             });
           },

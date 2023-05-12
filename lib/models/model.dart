@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitlife/screens/loginregister.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Model extends ChangeNotifier {
-  FirebaseFirestore fb_store = FirebaseFirestore.instance;
+  FirebaseFirestore fbStore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   bool _isProcessing = false;
@@ -37,7 +36,7 @@ class Model extends ChangeNotifier {
   List<String> _namesToAddingThePost = [];
   List<String> _emailsToAddingThePost = [];
   List<String> _nameEmailCombined = [];
-  String _NameEmailCombinedValue = "";
+  String _nameEmailCombinedValue = "";
   bool get isProcessing => _isProcessing;
   bool get postToAddIsForAdmin => _postToAddIsForAdmin;
   int get registered => _registered;
@@ -58,7 +57,7 @@ class Model extends ChangeNotifier {
   List<String> get namesToAddingThePost => _namesToAddingThePost;
   List<String> get emailsToAddingThePost => _emailsToAddingThePost;
   List<String> get nameEmailCombined => _nameEmailCombined;
-  String get nameEmailCombinedValue => _NameEmailCombinedValue;
+  String get nameEmailCombinedValue => _nameEmailCombinedValue;
 
   /*
    * This is a very dirty haxx. I never recommend using it under any circumstances.
@@ -95,7 +94,7 @@ class Model extends ChangeNotifier {
     _namesToAddingThePost = [];
     _emailsToAddingThePost = [];
     _nameEmailCombined = [];
-    _NameEmailCombinedValue = "";
+    _nameEmailCombinedValue = "";
   }
 
   processingData(bool process) {
@@ -200,7 +199,7 @@ class Model extends ChangeNotifier {
   }
 
   void addUserInfo(String name, String email, String gender) async {
-    await fb_store.collection("userinfo").doc(email).set({
+    await fbStore.collection("userinfo").doc(email).set({
       "name": name,
       "gender": gender,
       "email": email,
@@ -213,27 +212,27 @@ class Model extends ChangeNotifier {
 
   void modifyUserInfo({String name = "", String gender = "", String aboutMe = "", String userPfp = ""}) async {
     if(name.isNotEmpty && gender.isEmpty && aboutMe.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update({
         "name": name,
       });
       _userInfo.insert(0, name);
     } else if(gender.isNotEmpty && name.isEmpty && aboutMe.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update({
         "gender": gender,
       });
       _userInfo.insert(2, gender);
     } else if(aboutMe.isNotEmpty && name.isEmpty && gender.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update({
         "aboutMe": aboutMe,
       });
       _userInfo.insert(6, aboutMe);
     } else if(userPfp.isNotEmpty && name.isEmpty && gender.isEmpty && aboutMe.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update({
         "userPfp": userPfp,
       });
       _userInfo.insert(5, userPfp);
     } else if(name.isNotEmpty && gender.isNotEmpty && aboutMe.isNotEmpty && userPfp.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update({
         "name": name,
         "gender": gender,
         "aboutMe": aboutMe,
@@ -246,7 +245,7 @@ class Model extends ChangeNotifier {
   }
 
   getUserInfo() async {
-    var doc = await fb_store.collection("userinfo").doc(auth.currentUser?.email).get();
+    var doc = await fbStore.collection("userinfo").doc(auth.currentUser?.email).get();
     _userInfo.add(doc.data()!["name"]);
     _userInfo.add(doc.data()!["email"]);
     _userInfo.add(doc.data()!["gender"]);
@@ -260,11 +259,11 @@ class Model extends ChangeNotifier {
 
   addUserGymInfo(String gymName, {String email = "", bool isAdmin = false}) async {
     if(isAdmin && email.isNotEmpty) {
-      await fb_store.collection("userinfo").doc(email).update ({
+      await fbStore.collection("userinfo").doc(email).update ({
         "gymName": gymName
       });
     } else if(!isAdmin && email.isEmpty) {
-      await fb_store.collection("userinfo").doc(auth.currentUser?.email).update ({
+      await fbStore.collection("userinfo").doc(auth.currentUser?.email).update ({
         "gymName": gymName
       });
     }
@@ -282,16 +281,16 @@ class Model extends ChangeNotifier {
 
   void addGymInfo(String name, String location, String admin, String activeHours, double price, String weekdays) async {
     bool exists = false;
-    await fb_store.collection("userinfo").doc(admin).update({
+    await fbStore.collection("userinfo").doc(admin).update({
       "gymName": name,
     });
 
-    fb_store.collection("gyminfo").doc(name).get().then((docSnapshot) => {
+    fbStore.collection("gyminfo").doc(name).get().then((docSnapshot) => {
       exists = !docSnapshot.exists
     });
 
     if(!exists) {
-      await fb_store.collection("gyminfo").doc(name).set({
+      await fbStore.collection("gyminfo").doc(name).set({
         "name": name,
         "location": location,
         "admin": admin,
@@ -307,7 +306,7 @@ class Model extends ChangeNotifier {
     if(_gymInfo.isNotEmpty) {
       _gymInfo = [];
     }
-    var doc = await fb_store.collection("gyminfo").doc(str).get();
+    var doc = await fbStore.collection("gyminfo").doc(str).get();
     _gymInfo.add(doc.data()!["name"]);
     _gymInfo.add(doc.data()!["location"]);
     _gymInfo.add(doc.data()!["activeHours"]);
@@ -320,7 +319,7 @@ class Model extends ChangeNotifier {
   }
 
   uploadGymPFP(String str) async {
-    await fb_store.collection("gyminfo").doc(_gymInfo[0]).update({
+    await fbStore.collection("gyminfo").doc(_gymInfo[0]).update({
       "gymLogo": str,
     });
     _gymInfo.insert(6, str);
@@ -341,7 +340,7 @@ class Model extends ChangeNotifier {
   }
 
   getUsers() async {
-    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("chat-${_userInfo[3]}").get();
+    QuerySnapshot<Map<String, dynamic>> query = await fbStore.collection("chat-${_userInfo[3]}").get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
     for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
       sender.add(element.data()['sender']);
@@ -352,7 +351,7 @@ class Model extends ChangeNotifier {
   }
 
   getGyms() async {
-    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("gyminfo").get();
+    QuerySnapshot<Map<String, dynamic>> query = await fbStore.collection("gyminfo").get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
     for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
       gNames.add(element.data()['name']);
@@ -368,12 +367,12 @@ class Model extends ChangeNotifier {
       name = _userInfo[0];
     }
     if(edit) {
-      fb_store.collection("chat-${_userInfo[3]}").doc("doc$index").update({
+      fbStore.collection("chat-${_userInfo[3]}").doc("doc$index").update({
         "message": message,
         "modified": true,
       });
     } else {
-      fb_store.collection("chat-${_userInfo[3]}").doc("doc$index").set({
+      fbStore.collection("chat-${_userInfo[3]}").doc("doc$index").set({
         "sender": name,
         "senderMail": auth.currentUser!.email,
         "message": message,
@@ -384,7 +383,7 @@ class Model extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getMessages() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("chat-${_userInfo[3]}").orderBy("timestamp", descending: false).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("chat-${_userInfo[3]}").orderBy("timestamp", descending: false).snapshots();
     getUsers();
     return snapshots;
   }
@@ -403,7 +402,7 @@ class Model extends ChangeNotifier {
     notifyListeners();
   }
 
-  void add_rem_Exercise(String str, {bool clear = false}) {
+  void addRemExercise(String str, {bool clear = false}) {
     if(_postsExercises.contains(str)) {
       _postsExercises.remove(str);
     } else {
@@ -416,7 +415,7 @@ class Model extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getPosts() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("posts").orderBy("timestamp", descending: false).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("posts").orderBy("timestamp", descending: false).snapshots();
     return snapshots;
   }
 
@@ -434,7 +433,7 @@ class Model extends ChangeNotifier {
       name = _userInfo[0];
       email = _userInfo[1];
     }
-    fb_store.collection("posts").add({
+    fbStore.collection("posts").add({
       "content": content,
       "exercises": exercises,
       "gymName": _userInfo[3],
@@ -449,7 +448,7 @@ class Model extends ChangeNotifier {
   }
 
   Future<void> obtainValuesForPublishingPostToTheUser() async {
-    QuerySnapshot<Map<String, dynamic>> query = await fb_store.collection("userinfo").where('gymName', isEqualTo: _userInfo[3]).get();
+    QuerySnapshot<Map<String, dynamic>> query = await fbStore.collection("userinfo").where('gymName', isEqualTo: _userInfo[3]).get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> documents = query.docs;
     for(QueryDocumentSnapshot<Map<String, dynamic>> element in documents) {
       if(element['name'] == _userInfo[0] && element['email'] == _userInfo[1]) {
@@ -461,17 +460,17 @@ class Model extends ChangeNotifier {
       }
     }
     _nameEmailCombined = List.generate(_namesToAddingThePost.length, (index) => '${_namesToAddingThePost[index]} - ${_emailsToAddingThePost[index]}');
-    _NameEmailCombinedValue = _nameEmailCombined[0];
+    _nameEmailCombinedValue = _nameEmailCombined[0];
     notifyListeners();
   }
 
   void modifySelectedEmail(String email) {
-    _NameEmailCombinedValue = email;
+    _nameEmailCombinedValue = email;
     notifyListeners();
   }
 
   void addClass(String collectionName, String hour, String limit, String name) async {
-    await fb_store.collection("class-${_userInfo[3]}").doc(collectionName).set({
+    await fbStore.collection("class-${_userInfo[3]}").doc(collectionName).set({
       "hour": hour,
       "limit": limit,
       "name": name,
@@ -480,31 +479,31 @@ class Model extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getMyClasses() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("class-${_userInfo[3]}").where("users", arrayContains: _userInfo[1]).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("class-${_userInfo[3]}").where("users", arrayContains: _userInfo[1]).snapshots();
     return snapshots;
   }
 
   Stream<QuerySnapshot> getClasses() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("class-${_userInfo[3]}").orderBy("hour", descending: false).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("class-${_userInfo[3]}").orderBy("hour", descending: false).snapshots();
     return snapshots;
   }
 
   void bookClass(docId, bool add) async {
-    await fb_store.collection("class-${_userInfo[3]}").doc(docId).update ({
+    await fbStore.collection("class-${_userInfo[3]}").doc(docId).update ({
       "users": add ? FieldValue.arrayUnion([_userInfo[1]]) : FieldValue.arrayRemove([_userInfo[1]]),
     });
   }
 
   Stream<QuerySnapshot> getMyGymInfo() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("gyminfo").where("name", isEqualTo: _userInfo[3]).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("gyminfo").where("name", isEqualTo: _userInfo[3]).snapshots();
     return snapshots;
   }
 
-  void sendMyBenchmarks(String exercises, String reps, String sets, String previous_reps, String previous_sets) {
-    fb_store.collection("benchmark-user_${_userInfo[1]}").add({
+  void sendMyBenchmarks(String exercises, String reps, String sets, String previousReps, String previousSets) {
+    fbStore.collection("benchmark-user_${_userInfo[1]}").add({
       "exercises": exercises,
-      "previous_reps": previous_reps,
-      "previous_sets": previous_sets,
+      "previous_reps": previousReps,
+      "previous_sets": previousSets,
       "reps": reps,
       "sets": sets,
       "timestamp": FieldValue.serverTimestamp(),
@@ -512,7 +511,7 @@ class Model extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getBenchmarks() {
-    Stream<QuerySnapshot> snapshots = fb_store.collection("benchmark-user_${_userInfo[1]}").orderBy("timestamp", descending: false).snapshots();
+    Stream<QuerySnapshot> snapshots = fbStore.collection("benchmark-user_${_userInfo[1]}").orderBy("timestamp", descending: false).snapshots();
     return snapshots;
   }
 }

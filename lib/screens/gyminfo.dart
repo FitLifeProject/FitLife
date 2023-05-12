@@ -33,7 +33,7 @@ class _GymInfoState extends State<GymInfo> {
             Visibility(
               visible: model.userInfo[3] != model.gymInfo[0] || model.userInfo[3] == "",
               child: IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 onPressed: () {
                   model.addUserGymInfo(model.gymInfo[0]);
                 },
@@ -42,13 +42,13 @@ class _GymInfoState extends State<GymInfo> {
             Visibility(
               visible: model.userInfo[3] == model.gymInfo[0],
               child: IconButton(
-                icon: Icon(Icons.chat),
+                icon: const Icon(Icons.chat),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Chat();
+                        return const Chat();
                       },
                     ),
                   );
@@ -108,7 +108,7 @@ class _GymInfoState extends State<GymInfo> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ImgurUploader();
+                                return const ImgurUploader();
                               },
                             ),
                           );
@@ -150,7 +150,7 @@ class _GymInfoState extends State<GymInfo> {
                 ),
               ),
             ] else...[
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
             ],

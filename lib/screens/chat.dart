@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
-  Chat({Key? key}) : super(key: key);
+  const Chat({Key? key}) : super(key: key);
 
   @override
   State<Chat> createState() => _ChatState();
@@ -30,10 +30,10 @@ class _ChatState extends State<Chat> {
         backgroundColor: Theme.of(context).colorScheme.secondaryContainer.withAlpha(50),
         title: Column(
           children: [
-            Text("Chat"),
+            const Text("Chat"),
             Text(
               "${model.users.toString()} users",
-              style: TextStyle(fontSize: 10),
+              style: const TextStyle(fontSize: 10),
             ),
           ],
         ),
@@ -51,7 +51,7 @@ class _ChatState extends State<Chat> {
                     itemCount: messages.length,
                     itemBuilder: (BuildContext context, int index) {
                       if (snapshot.hasError) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -68,9 +68,9 @@ class _ChatState extends State<Chat> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(messages[index]['sender'], style: TextStyle(fontSize: 10)),
-                                      Text(messages[index]['message'], style: TextStyle(fontSize: 15)),
-                                      Text((messages[index]['modified'].toString() == "true") ? "${DateFormat("HH:mm:ss").format((messages[index]['timestamp'].toDate())).toString()} (modified)" : DateFormat("HH:mm:ss").format((messages[index]['timestamp'].toDate())).toString(), style: TextStyle(fontSize: 8))
+                                      Text(messages[index]['sender'], style: const TextStyle(fontSize: 10)),
+                                      Text(messages[index]['message'], style: const TextStyle(fontSize: 15)),
+                                      Text((messages[index]['modified'].toString() == "true") ? "${DateFormat("HH:mm:ss").format((messages[index]['timestamp'].toDate())).toString()} (modified)" : DateFormat("HH:mm:ss").format((messages[index]['timestamp'].toDate())).toString(), style: const TextStyle(fontSize: 8))
                                     ],
                                   ),
                                   onDoubleTap: () {
@@ -96,11 +96,11 @@ class _ChatState extends State<Chat> {
                                             child: const Text("Yes"),
                                             onPressed: () {
                                               if(model.userInfo[4] == "true") {
-                                                model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                               } else {
                                                 snapshot.data!.docs[index].reference.get().then((value) {
                                                   if(value.get("senderMail") == model.auth.currentUser?.email) {
-                                                    model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                    model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                                   }
                                                 });
                                               }

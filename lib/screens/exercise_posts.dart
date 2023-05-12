@@ -51,7 +51,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                 ElevatedButton(
                   child: const Text("Yes"),
                   onPressed: () {
-                    model.add_rem_Exercise("", clear: true);
+                    model.addRemExercise("", clear: true);
                     reps = [];
                     sets = [];
                     if(model.userInfo[4] == "true") {
@@ -115,7 +115,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                         model.sendPost(exercises, reps.join(","), sets.join(","), pName: name, pEmail: email);
                       }
                     }
-                    model.add_rem_Exercise("", clear: true);
+                    model.addRemExercise("", clear: true);
                     reps = [];
                     sets = [];
                     if(model.userInfo[4] == "true") {
@@ -273,7 +273,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                     final type = allTypes[index];
                     return GestureDetector(
                       onTap: () {
-                        model.add_rem_Exercise(type.name);
+                        model.addRemExercise(type.name);
                       },
                       child: Column(
                         children: [

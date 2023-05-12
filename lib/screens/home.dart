@@ -6,9 +6,6 @@ import 'package:fitlife/screens/classes/booked_classes.dart';
 import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/gyminfo.dart';
 import 'package:fitlife/screens/gymresults.dart';
-import 'package:fitlife/screens/menu.dart';
-import 'package:fitlife/screens/profile.dart';
-import 'package:fitlife/screens/exercise_posts.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,7 +92,7 @@ class _HomeState extends State<Home> {
                         }
                       )
                     );
-                  } else if(gyms.length <= 0) {
+                  } else if(gyms.isEmpty) {
                     model.showSnackbar(context, "Gym not found");
                   }
                 },
@@ -126,7 +123,7 @@ class _HomeState extends State<Home> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Chat();
+                        return const Chat();
                       },
                     ),
                   );
@@ -337,11 +334,11 @@ class _HomeState extends State<Home> {
                                                       child: const Text("Yes"),
                                                       onPressed: () {
                                                         if(model.userInfo[4] == "true") {
-                                                          model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                          model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                                         } else {
                                                           snapshot.data!.docs[index].reference.get().then((value) {
                                                             if(value.get("senderMail") == model.auth.currentUser?.email) {
-                                                              model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                              model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                                             }
                                                           });
                                                         }
@@ -372,7 +369,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigation(model, context),
+        bottomNavigationBar: bottomNavBar(model, context),
       ),
     );
   }

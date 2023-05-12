@@ -22,7 +22,7 @@ String stepName(WorkoutState step) {
 class TabataWorkout extends StatefulWidget {
   final Tabata tabata;
 
-  TabataWorkout({required this.tabata});
+  const TabataWorkout({super.key, required this.tabata});
 
   @override
   State<StatefulWidget> createState() => _TabataWorkoutState();
@@ -49,7 +49,7 @@ class _TabataWorkoutState extends State<TabataWorkout> {
     if (_workout.step == WorkoutState.finished) {
       Wakelock.disable();
     }
-    this.setState(() {});
+    setState(() {});
   }
 
   _getBackgroundColor(ThemeData theme) {
@@ -75,6 +75,7 @@ class _TabataWorkoutState extends State<TabataWorkout> {
     Wakelock.enable();
   }
 
+  @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var lightTextColor = theme.textTheme.bodyText2?.color?.withOpacity(0.8);
@@ -93,7 +94,7 @@ class _TabataWorkoutState extends State<TabataWorkout> {
               Text(stepName(_workout.step), style: const TextStyle(fontSize: 50.0))
             ]),
             Divider(height: 32, color: lightTextColor),
-            Container(
+            SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: FittedBox(child: Text(formatTime(_workout.timeLeft)))),
             Divider(height: 32, color: lightTextColor),

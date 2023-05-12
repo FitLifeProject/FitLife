@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GymResults extends StatefulWidget {
-  var gyms;
-  GymResults({Key? key, required this.gyms}) : super(key: key);
+  final dynamic gyms;
+  const GymResults({Key? key, required this.gyms}) : super(key: key);
 
   @override
   State<GymResults> createState() => _GymResultsState();
@@ -17,7 +17,7 @@ class _GymResultsState extends State<GymResults> {
     var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Results of your search"),
+        title: const Text("Results of your search"),
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -32,7 +32,7 @@ class _GymResultsState extends State<GymResults> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return GymInfo();
+                        return const GymInfo();
                       },
                     ),
                   );

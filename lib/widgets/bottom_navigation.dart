@@ -5,7 +5,7 @@ import 'package:fitlife/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget BottomNavigation(model, context) {
+Widget bottomNavBar(model, context) {
   return BottomNavigationBar(
     showSelectedLabels: false,
     showUnselectedLabels: false,

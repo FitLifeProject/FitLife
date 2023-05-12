@@ -38,14 +38,14 @@ class _ProfileState extends State<Profile> {
           centerTitle: true,
           actions: [
             IconButton(
-              icon: Icon(Icons.chat),
+              icon: const Icon(Icons.chat),
               onPressed: () {
                 if (model.userInfo[3] != "") {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return Chat();
+                        return const Chat();
                       },
                     ),
                   );
@@ -99,7 +99,7 @@ class _ProfileState extends State<Profile> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ImgurUploader(pfp: true,);
+                                return const ImgurUploader(pfp: true,);
                               },
                             ),
                           );
@@ -268,11 +268,11 @@ class _ProfileState extends State<Profile> {
                                                   child: const Text("Yes"),
                                                   onPressed: () {
                                                     if(model.userInfo[4] == "true") {
-                                                      model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                      model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                                     } else {
                                                       snapshot.data!.docs[index].reference.get().then((value) {
                                                         if(value.get("senderMail") == model.auth.currentUser?.email) {
-                                                          model.fb_store.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
+                                                          model.fbStore.runTransaction((transaction) async => transaction.delete(snapshot.data!.docs[index].reference));
                                                         }
                                                       });
                                                     }
@@ -298,7 +298,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(model, context),
+      bottomNavigationBar: bottomNavBar(model, context),
     );
   }
 }

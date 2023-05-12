@@ -98,7 +98,7 @@ class _MenuState extends State<Menu> {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return Chat();
+                          return const Chat();
                         },
                       ),
                     );
@@ -201,7 +201,7 @@ class _MenuState extends State<Menu> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigation(model, context),
+        bottomNavigationBar: bottomNavBar(model, context),
       ),
     );
   }

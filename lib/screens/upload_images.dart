@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class ImgurUploader extends StatefulWidget {
-  var pfp;
-  ImgurUploader({super.key, this.pfp = false});
+  final dynamic pfp;
+  const ImgurUploader({super.key, this.pfp = false});
 
   @override
   State<ImgurUploader> createState() => _ImgurUploaderState();

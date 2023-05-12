@@ -48,7 +48,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                 ElevatedButton(
                   child: const Text("Yes"),
                   onPressed: () {
-                    model.add_rem_Exercise("", clear: true);
+                    model.addRemExercise("", clear: true);
                     reps = [];
                     sets = [];
                     Navigator.of(context).pop(true);
@@ -101,7 +101,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                     }
                     if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty) {
                       model.sendMyBenchmarks(exercises, reps.join(","), sets.join(","), oldReps.join(","), oldSets.join(","));
-                      model.add_rem_Exercise("", clear: true);
+                      model.addRemExercise("", clear: true);
                       reps = [];
                       sets = [];
                       Navigator.pop(context);
@@ -238,7 +238,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                     final type = allTypes[index];
                     return GestureDetector(
                       onTap: () {
-                        model.add_rem_Exercise(type.name);
+                        model.addRemExercise(type.name);
                       },
                       child: Column(
                         children: [

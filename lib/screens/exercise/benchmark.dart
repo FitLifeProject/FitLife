@@ -22,6 +22,10 @@ class _BenchmarkState extends State<Benchmark> {
     var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Benchmarks"),
         centerTitle: true,
         actions: [

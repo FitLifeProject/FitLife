@@ -79,6 +79,10 @@ class _AddClassState extends State<AddClass> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+          ),
           backgroundColor: Theme.of(context).colorScheme.secondaryContainer.withAlpha(50),
           title: const Text("Add a new class"),
           centerTitle: true,

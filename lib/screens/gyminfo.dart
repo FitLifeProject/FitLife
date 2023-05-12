@@ -26,6 +26,10 @@ class _GymInfoState extends State<GymInfo> {
     var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: Text("${model.gymInfo.isNotEmpty ? model.gymInfo[0] : 0}"),
         centerTitle: true,
         actions: [

@@ -72,6 +72,10 @@ class _ChronometerState extends State<Chronometer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text('Clock: Chronometer'),
       ),
       body: Center(

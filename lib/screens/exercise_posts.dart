@@ -69,6 +69,10 @@ class _ExercisePostsState extends State<ExercisePosts> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+          ),
           title: const Text("Add posts"),
           centerTitle: true,
           actions: [

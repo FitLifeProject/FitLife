@@ -81,6 +81,10 @@ class _TabataWorkoutState extends State<TabataWorkout> {
     var lightTextColor = theme.textTheme.bodyText2?.color?.withOpacity(0.8);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Workout"),
         centerTitle: true,
       ),

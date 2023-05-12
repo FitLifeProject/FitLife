@@ -17,6 +17,10 @@ class _GymResultsState extends State<GymResults> {
     var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Results of your search"),
         centerTitle: true,
       ),

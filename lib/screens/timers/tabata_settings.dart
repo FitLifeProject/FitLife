@@ -19,6 +19,10 @@ class _TabataSettingsState extends State<TabataSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text('Tabata Timer'),
         centerTitle: true,
       ),

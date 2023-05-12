@@ -61,6 +61,10 @@ class _AddBenchmarkState extends State<AddBenchmark> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+          ),
           title: const Text("Add benchmark"),
           centerTitle: true,
           actions: [

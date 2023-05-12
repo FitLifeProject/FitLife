@@ -15,6 +15,10 @@ class _BookedClassesState extends State<BookedClasses> {
     var model = context.watch<Model>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: Text("Booked classes of ${model.userInfo[0]}"),
         centerTitle: true,
       ),

@@ -35,6 +35,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     var model = context.read<Model>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Text("Edit Profile"),
         centerTitle: true,
         actions: [

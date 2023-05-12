@@ -64,6 +64,15 @@ class _HomeState extends State<Home> {
           leading: IconButton(
             icon: Image.asset("assets/img/fitlife.png"),
             onPressed: () {
+              model.changeScreen(0);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Home();
+                  },
+                ),
+              );
             },
           ),
           title: TextField(

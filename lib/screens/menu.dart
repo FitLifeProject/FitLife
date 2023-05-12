@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/clock_information.dart';
+import 'package:fitlife/screens/home.dart';
 import 'package:fitlife/screens/profile_settings.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/timers/chronometer.dart';
@@ -85,6 +86,15 @@ class _MenuState extends State<Menu> {
             leading: IconButton(
               icon: Image.asset("assets/img/fitlife.png"),
               onPressed: () {
+                model.changeScreen(0);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ),
+                );
               },
             ),
             title: const Text("Menu"),

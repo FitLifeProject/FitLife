@@ -3,6 +3,7 @@ import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/exercise/benchmark.dart';
+import 'package:fitlife/screens/home.dart';
 import 'package:fitlife/screens/upload_images.dart';
 import 'package:fitlife/screens/exercise/pr.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
@@ -32,6 +33,15 @@ class _ProfileState extends State<Profile> {
           leading: IconButton(
             icon: Image.asset("assets/img/fitlife.png"),
             onPressed: () {
+              model.changeScreen(0);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Home();
+                  },
+                ),
+              );
             },
           ),
           title: const Text("Profile"),

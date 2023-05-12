@@ -277,6 +277,9 @@ class _ExercisePostsState extends State<ExercisePosts> {
                   itemCount: allTypes.length,
                   itemBuilder: (context, index) {
                     final type = allTypes[index];
+                    if (type.type == ExercisesType.none || type.name.isEmpty || type.url.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
                     return GestureDetector(
                       onTap: () {
                         model.addRemExercise(type.name);

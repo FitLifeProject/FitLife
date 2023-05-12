@@ -21,7 +21,7 @@ class _TimeRState extends State<TimeR> {
   String ttlBtn1 = "Start";
   String ttlBtn2 = "Stop";
   late int _totalSecondsRemaining;
-  late Timer _timer;
+  Timer _timer = Timer.periodic(Duration.zero, (timer) => {});
   final player = AudioPlayer();
 
   @override

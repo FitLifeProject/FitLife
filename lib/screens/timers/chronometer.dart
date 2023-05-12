@@ -13,7 +13,7 @@ class Chronometer extends StatefulWidget {
 class _ChronometerState extends State<Chronometer> {
   int _secondsElapsed = 0;
   bool _isRunning = false;
-  late Timer _timer;
+  Timer _timer = Timer.periodic(Duration.zero, (timer) => {});
   late DateTime _startTime;
   int _secondsBeforeStop = 0;
   bool secondsAreZero = true;

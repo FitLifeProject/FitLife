@@ -48,6 +48,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                 ElevatedButton(
                   child: const Text("Yes"),
                   onPressed: () {
+                    model.setAddingPostExerciseScreen(0);
                     model.addRemExercise("", clear: true);
                     reps = [];
                     sets = [];
@@ -108,6 +109,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                       model.addRemExercise("", clear: true);
                       reps = [];
                       sets = [];
+                      model.setAddingPostExerciseScreen(0);
                       Navigator.pop(context);
                     } else {
                       if(exercises.isEmpty) {

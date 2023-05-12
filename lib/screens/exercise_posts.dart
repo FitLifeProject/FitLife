@@ -51,6 +51,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                 ElevatedButton(
                   child: const Text("Yes"),
                   onPressed: () {
+                    model.setAddingPostExerciseScreen(0);
                     model.addRemExercise("", clear: true);
                     reps = [];
                     sets = [];
@@ -127,6 +128,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                         model.setForAdmin();
                       }
                     }
+                    model.setAddingPostExerciseScreen(0);
                     Navigator.pop(context);
                   } else {
                     if(exercises.isEmpty) {

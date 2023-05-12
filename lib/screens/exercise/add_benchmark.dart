@@ -104,11 +104,13 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                         sets.add(setsControllers[i].text);
                       }
                     }
-                    if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty) {
+                    if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty && oldReps.isNotEmpty && oldSets.isNotEmpty) {
                       model.sendMyBenchmarks(exercises, reps.join(","), sets.join(","), oldReps.join(","), oldSets.join(","));
                       model.addRemExercise("", clear: true);
                       reps = [];
                       sets = [];
+                      oldReps = [];
+                      oldSets = [];
                       model.setAddingPostExerciseScreen(0);
                       Navigator.pop(context);
                     } else {

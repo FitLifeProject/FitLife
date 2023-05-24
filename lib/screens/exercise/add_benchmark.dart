@@ -18,21 +18,27 @@ class _AddBenchmarkState extends State<AddBenchmark> {
   @override
   Widget build(BuildContext context) {
     var model = context.watch<Model>();
-    List<TextEditingController> oldRepsControllers = [];
     List<TextEditingController> oldSetsControllers = [];
-    List<TextEditingController> repsControllers = [];
+    List<TextEditingController> oldRepsControllers = [];
+    List<TextEditingController> oldValuesControllers = [];
     List<TextEditingController> setsControllers = [];
+    List<TextEditingController> repsControllers = [];
+    List<TextEditingController> valuesControllers = [];
     for (int i = 0; i < model.postsExercises.length; i++) {
-      oldRepsControllers.add(TextEditingController());
       oldSetsControllers.add(TextEditingController());
-      repsControllers.add(TextEditingController());
+      oldRepsControllers.add(TextEditingController());
+      oldValuesControllers.add(TextEditingController());
       setsControllers.add(TextEditingController());
+      repsControllers.add(TextEditingController());
+      valuesControllers.add(TextEditingController());
     }
     String exercises = "";
-    List oldReps = [];
     List oldSets = [];
-    List reps = [];
+    List oldReps = [];
+    List oldValues = [];
     List sets = [];
+    List reps = [];
+    List values = [];
     return WillPopScope(
       onWillPop: () async {
         final result = await showDialog(
@@ -97,25 +103,53 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                       if(oldSetsControllers[i].text.isNotEmpty) {
                         oldSets.add(oldSetsControllers[i].text);
                       }
+                      if(strToExercise[model.postsExercises[i]]?.measuresType != MeasuresType.reps) {
+                        if(oldValuesControllers[i].text.isNotEmpty) {
+                          oldValues.add(oldValuesControllers[i].text);
+                          model.switchErrorBenchmarkPosts(false);
+                        } else {
+                          model.switchErrorBenchmarkPosts(true);
+                        }
+                      } else {
+                        oldValues.add("_");
+                      }
                       if(repsControllers[i].text.isNotEmpty) {
                         reps.add(repsControllers[i].text);
                       }
                       if(setsControllers[i].text.isNotEmpty) {
                         sets.add(setsControllers[i].text);
                       }
+                      if(strToExercise[model.postsExercises[i]]?.measuresType != MeasuresType.reps) {
+                        if(valuesControllers[i].text.isNotEmpty) {
+                          values.add(valuesControllers[i].text);
+                          model.switchErrorBenchmarkPosts(false);
+                        } else {
+                          model.switchErrorBenchmarkPosts(true);
+                        }
+                      } else {
+                        values.add("_");
+                      }
                     }
-                    if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty && oldReps.isNotEmpty && oldSets.isNotEmpty) {
-                      model.sendMyBenchmarks(exercises, reps.join(","), sets.join(","), oldReps.join(","), oldSets.join(","));
-                      model.addRemExercise("", clear: true);
-                      reps = [];
-                      sets = [];
-                      oldReps = [];
-                      oldSets = [];
-                      model.setAddingPostExerciseScreen(0);
-                      Navigator.pop(context);
+                    if(model.errorBenchmarkPosts) {
+                      model.showSnackbar(context, "You must fill every field.");
                     } else {
-                      if(exercises.isEmpty) {
-                        model.showSnackbar(context, "You must choose at least 1 exercise.");
+                      if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty && oldReps.isNotEmpty && oldSets.isNotEmpty) {
+                        model.sendMyBenchmarks(exercises, reps.join(","), sets.join(","), values.join(","), oldReps.join(","), oldSets.join(","), oldValues.join(","));
+                        model.addRemExercise("", clear: true);
+                        sets = [];
+                        reps = [];
+                        values = [];
+                        oldSets = [];
+                        oldReps = [];
+                        oldValues = [];
+                        model.setAddingPostExerciseScreen(0);
+                        Navigator.pop(context);
+                      } else {
+                        if(exercises.isEmpty) {
+                          model.showSnackbar(context, "You must choose at least 1 exercise.");
+                        } else if(reps.isEmpty || sets.isEmpty || oldReps.isEmpty || oldSets.isEmpty) {
+                          model.showSnackbar(context, "You must fill every field.");
+                        }
                       }
                     }
                   },
@@ -141,23 +175,6 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const Text("Prev reps: "),
-                                  const SizedBox(width: 2),
-                                  SizedBox(
-                                    width: 50,
-                                    child: TextField(
-                                      controller: oldRepsControllers[index],
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        hintText: '0',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context).colorScheme.inversePrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
                                   const Text("Prev sets: "),
                                   const SizedBox(width: 2),
                                   SizedBox(
@@ -174,6 +191,49 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(width: 10),
+                                  const Text("Prev reps: "),
+                                  const SizedBox(width: 2),
+                                  SizedBox(
+                                    width: 50,
+                                    child: TextField(
+                                      controller: oldRepsControllers[index],
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintText: '0',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.lbs)...[
+                                    const Text("Prev lbs:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.meters)...[
+                                    const Text("Prev meters:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.seconds)...[
+                                    const Text("Prev seconds:"),
+                                  ],
+                                  const SizedBox(width: 2),
+                                  Visibility(
+                                    visible: strToExercise[model.postsExercises[index]]?.measuresType != MeasuresType.reps,
+                                    child: SizedBox(
+                                      width: 50,
+                                      child: TextField(
+                                        controller: oldValuesControllers[index],
+                                        keyboardType: TextInputType.number,
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          hintText: '0',
+                                          hintStyle: TextStyle(
+                                            color: Theme.of(context).colorScheme.inversePrimary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 10,),
@@ -181,6 +241,23 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  const Text("Sets: "),
+                                  const SizedBox(width: 2),
+                                  SizedBox(
+                                    width: 50,
+                                    child: TextField(
+                                      controller: setsControllers[index],
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintText: '0',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 20),
                                   const Text("Reps: "),
                                   const SizedBox(width: 2),
                                   SizedBox(
@@ -197,19 +274,28 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 20),
-                                  const Text("Sets: "),
+                                  const SizedBox(width: 4),
+                                  if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.lbs)...[
+                                    const Text("lbs:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.meters)...[
+                                    const Text("Meters:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.seconds)...[
+                                    const Text("Seconds:"),
+                                  ],
                                   const SizedBox(width: 2),
-                                  SizedBox(
-                                    width: 50,
-                                    child: TextField(
-                                      controller: setsControllers[index],
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        hintText: '0',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context).colorScheme.inversePrimary,
+                                  Visibility(
+                                    visible: strToExercise[model.postsExercises[index]]?.measuresType != MeasuresType.reps,
+                                    child: SizedBox(
+                                      width: 50,
+                                      child: TextField(
+                                        controller: valuesControllers[index],
+                                        keyboardType: TextInputType.number,
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          hintText: '0',
+                                          hintStyle: TextStyle(
+                                            color: Theme.of(context).colorScheme.inversePrimary,
+                                          ),
                                         ),
                                       ),
                                     ),

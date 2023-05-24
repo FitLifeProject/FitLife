@@ -13,9 +13,9 @@ enum ExercisesType {
 
 enum MeasuresType {
   reps("sets_reps"),
-  meters("sets_meters"),
-  seconds("sets_seconds"),
-  lbs("sets_reps_lb"),
+  meters("sets_reps_meters"),
+  seconds("sets_reps_seconds"),
+  lbs("sets_reps_lbs"),
   none("");
   final String type;
 
@@ -27,7 +27,7 @@ enum Exercises {
   push_up(ExercisesType.gymnastics, "Push up", "https://youtu.be/M1IfJmVjKW0", MeasuresType.reps),
   squads(ExercisesType.gymnastics, "Squads", "https://youtu.be/xDdSZmWNYQI", MeasuresType.reps),
   pull_up(ExercisesType.gymnastics, "Pulls Up", "https://youtu.be/ifOBltCCRZw", MeasuresType.reps),
-  plank(ExercisesType.gymnastics, "Plank", "https://youtu.be/CO7MktWaoD8", MeasuresType.reps),
+  plank(ExercisesType.gymnastics, "Plank", "https://youtu.be/CO7MktWaoD8", MeasuresType.seconds),
   bench_press(ExercisesType.strength, "Bench Press", "https://youtu.be/FgVDxCxXkmc", MeasuresType.lbs),
   wall_ball(ExercisesType.strength, "Wall Ball", "https://youtu.be/UUo2ONp4iGc", MeasuresType.lbs),
   front_squad(ExercisesType.strength, "Front Squad", "https://youtu.be/UoikaYjLRNk", MeasuresType.lbs),

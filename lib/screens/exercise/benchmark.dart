@@ -63,8 +63,10 @@ class _BenchmarkState extends State<Benchmark> {
                           List<Exercises> exercises = [];
                           List oldReps = [];
                           List oldSets = [];
+                          List oldValues = [];
                           List reps = [];
                           List sets = [];
+                          List values = [];
                           if(posts.isNotEmpty) {
                             exerciseStr = posts[index]['exercises'].split(",");
                             for (String exerciseString in exerciseStr) {
@@ -74,8 +76,10 @@ class _BenchmarkState extends State<Benchmark> {
                             if(posts[index]['previous_reps'].contains(",") && posts[index]['previous_sets'].contains(",") && posts[index]['reps'].contains(",") && posts[index]['sets'].contains(",")) {
                               oldReps = posts[index]['previous_reps'].split(",");
                               oldSets = posts[index]['previous_sets'].split(",");
+                              oldValues = posts[index]['previous_values'].split(",");
                               reps = posts[index]['reps'].split(",");
                               sets = posts[index]['sets'].split(",");
+                              values = posts[index]['values'].split(",");
                               setState(() => moreThanOneExercise = true);
                             }
                           }
@@ -106,22 +110,47 @@ class _BenchmarkState extends State<Benchmark> {
                                               const SizedBox(height: 5),
                                               if (moreThanOneExercise)...[
                                                 Text(
-                                                  "Reps: ${oldReps[index]} -> ${reps[index]}",
-                                                  style: const TextStyle(fontSize: 16.0),
-                                                ),
-                                                Text(
                                                   "Sets: ${oldSets[index]} -> ${sets[index]}",
                                                   style: const TextStyle(fontSize: 16.0),
                                                 ),
-                                              ] else ...[
                                                 Text(
-                                                  "Reps: ${posts[index]['previous_reps']} -> ${posts[index]['reps']}",
+                                                  "Reps: ${oldReps[index]} -> ${reps[index]}",
                                                   style: const TextStyle(fontSize: 16.0),
                                                 ),
+                                                Visibility(
+                                                  visible: exercises[index].measuresType != MeasuresType.reps,
+                                                  child: Text(
+                                                    "Values: ${oldValues[index]} -> ${values[index]}",
+                                                    style: const TextStyle(fontSize: 16.0),
+                                                  ),
+                                                ),
+                                              ] else ...[
                                                 Text(
                                                   "Sets: ${posts[index]['previous_sets']} -> ${posts[index]['sets']}",
                                                   style: const TextStyle(fontSize: 16.0),
                                                 ),
+                                                Text(
+                                                  "Reps: ${posts[index]['previous_reps']} -> ${posts[index]['reps']}",
+                                                  style: const TextStyle(fontSize: 16.0),
+                                                ),
+                                                if(exercises[index].measuresType != MeasuresType.reps)...[
+                                                  if(exercises[index].measuresType == MeasuresType.lbs)...[
+                                                    Text(
+                                                      "lbs: ${posts[index]['previous_values']} -> ${posts[index]['values']}",
+                                                      style: const TextStyle(fontSize: 16.0),
+                                                    ),
+                                                  ] else if(exercises[index].measuresType == MeasuresType.seconds)...[
+                                                    Text(
+                                                      "Seconds: ${posts[index]['previous_values']} -> ${posts[index]['values']}",
+                                                      style: const TextStyle(fontSize: 16.0),
+                                                    ),
+                                                  ] else if(exercises[index].measuresType == MeasuresType.meters)...[
+                                                    Text(
+                                                      "Meters: ${posts[index]['previous_values']} -> ${posts[index]['values']}",
+                                                      style: const TextStyle(fontSize: 16.0),
+                                                    ),
+                                                  ],
+                                                ],
                                               ],
                                               const SizedBox(height: 5),
                                               GestureDetector(

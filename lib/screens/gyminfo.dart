@@ -171,6 +171,7 @@ class _GymInfoState extends State<GymInfo> {
                         List<Exercises> exercises = [];
                         List reps = [];
                         List sets = [];
+                        List values = [];
                         if(posts.isNotEmpty) {
                           exerciseStr = posts[index]['exercises'].split(",");
                           for (String exerciseString in exerciseStr) {
@@ -179,6 +180,7 @@ class _GymInfoState extends State<GymInfo> {
                           }
                           reps = posts[index]['reps'].split(",");
                           sets = posts[index]['sets'].split(",");
+                          values = posts[index]['values'].split(",");
                         }
                         if(snapshot.hasError) {
                           return const Center(child: CircularProgressIndicator());
@@ -214,10 +216,29 @@ class _GymInfoState extends State<GymInfo> {
                                               style: const TextStyle(fontSize: 36.0),
                                             ),
                                             const SizedBox(height: 5),
-                                            Text(
-                                              "Reps: ${reps[index]} Sets: ${sets[index]}",
-                                              style: const TextStyle(fontSize: 16.0),
-                                            ),
+                                            if(exercises[index].measuresType != MeasuresType.reps)...[
+                                              if(exercises[index].measuresType == MeasuresType.lbs)...[
+                                                Text(
+                                                  "Sets: ${sets[index]} Reps: ${reps[index]} lbs: ${values[index]}",
+                                                  style: const TextStyle(fontSize: 16.0),
+                                                ),
+                                              ] else if(exercises[index].measuresType == MeasuresType.seconds)...[
+                                                Text(
+                                                  "Sets: ${sets[index]} Reps: ${reps[index]} Seconds: ${values[index]}",
+                                                  style: const TextStyle(fontSize: 16.0),
+                                                ),
+                                              ] else if(exercises[index].measuresType == MeasuresType.meters)...[
+                                                Text(
+                                                  "Sets: ${sets[index]} Reps: ${reps[index]} Meters: ${values[index]}",
+                                                  style: const TextStyle(fontSize: 16.0),
+                                                ),
+                                              ],
+                                            ] else...[
+                                              Text(
+                                                "Sets: ${sets[index]} Reps: ${reps[index]}",
+                                                style: const TextStyle(fontSize: 16.0),
+                                              ),
+                                            ],
                                             const SizedBox(height: 5),
                                             GestureDetector(
                                               onTap: () async {

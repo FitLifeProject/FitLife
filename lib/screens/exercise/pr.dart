@@ -94,6 +94,7 @@ class _PRState extends State<PR> {
                           final exercises = (post.data() as Map<String, dynamic>)["exercises"].split(",");
                           final reps = (post.data() as Map<String, dynamic>)["reps"].split(",");
                           final sets = (post.data() as Map<String, dynamic>)["sets"].split(",");
+                          final values = (post.data() as Map<String, dynamic>)["values"].split(",");
                           final filteredExercises = exercises.where((exerciseStr) {
                             final exercise = strToExercise[exerciseStr];
                             return exercise != null && exercise.type == _selectedType;
@@ -106,18 +107,42 @@ class _PRState extends State<PR> {
                               final exercise = strToExercise[filteredExercises[index]]!;
                               final rep = reps[exercises.indexOf(filteredExercises[index])];
                               final set = sets[exercises.indexOf(filteredExercises[index])];
+                              final value = values[exercises.indexOf(filteredExercises[index])];
+                              final valTitle;
+                              if(exercise.measuresType != MeasuresType.reps && exercise.measuresType == MeasuresType.lbs) {
+                                valTitle = "Lbs";
+                              } else if(exercise.measuresType != MeasuresType.reps && exercise.measuresType == MeasuresType.seconds) {
+                                valTitle = "Seconds";
+                              } else if(exercise.measuresType != MeasuresType.reps && exercise.measuresType == MeasuresType.meters) {
+                                valTitle = "Meters";
+                              } else {
+                                valTitle = "";
+                              }
                               return Column(
                                 children: [
-                                  ListTile(
-                                    leading: GestureDetector(
-                                      onTap: () async {
-                                        await launch(exercise.url);
-                                      },
-                                      child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                  if(exercise.measuresType != MeasuresType.reps)...[
+                                    ListTile(
+                                      leading: GestureDetector(
+                                        onTap: () async {
+                                          await launch(exercise.url);
+                                        },
+                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                      ),
+                                      title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
+                                      subtitle: Text("Sets: $set Reps: $rep $valTitle: $value", style: const TextStyle(fontSize: 16.0),),
                                     ),
-                                    title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
-                                    subtitle: Text("Reps: $rep Sets: $set", style: const TextStyle(fontSize: 16.0),),
-                                  ),
+                                  ] else...[
+                                    ListTile(
+                                      leading: GestureDetector(
+                                        onTap: () async {
+                                          await launch(exercise.url);
+                                        },
+                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                      ),
+                                      title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
+                                      subtitle: Text("Sets: $set Reps: $rep", style: const TextStyle(fontSize: 16.0),),
+                                    ),
+                                  ]
                                 ],
                               );
                             },

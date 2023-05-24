@@ -27,15 +27,18 @@ class _ExercisePostsState extends State<ExercisePosts> {
       name = model.nameEmailCombinedValue.split(" - ")[0];
       email = model.nameEmailCombinedValue.split(" - ")[1];
     }
-    List<TextEditingController> repsControllers = [];
     List<TextEditingController> setsControllers = [];
+    List<TextEditingController> repsControllers = [];
+    List<TextEditingController> valuesControllers = [];
     for (int i = 0; i < model.postsExercises.length; i++) {
-      repsControllers.add(TextEditingController());
       setsControllers.add(TextEditingController());
+      repsControllers.add(TextEditingController());
+      valuesControllers.add(TextEditingController());
     }
     String exercises = "";
-    List reps = [];
     List sets = [];
+    List reps = [];
+    List values = [];
     return WillPopScope(
       onWillPop: () async {
         final result = await showDialog(
@@ -53,8 +56,9 @@ class _ExercisePostsState extends State<ExercisePosts> {
                   onPressed: () {
                     model.setAddingPostExerciseScreen(0);
                     model.addRemExercise("", clear: true);
-                    reps = [];
                     sets = [];
+                    reps = [];
+                    values = [];
                     if(model.userInfo[4] == "true") {
                       if(!model.postToAddIsForAdmin) {
                         model.setForAdmin();
@@ -98,6 +102,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                   exercises = model.postsExercises.join(",");
                   reps = [];
                   sets = [];
+                  values = [];
                   for (int i = 0; i < model.postsExercises.length; i++) {
                     if(repsControllers[i].text.isNotEmpty) {
                       reps.add(repsControllers[i].text);
@@ -105,36 +110,51 @@ class _ExercisePostsState extends State<ExercisePosts> {
                     if(setsControllers[i].text.isNotEmpty) {
                       sets.add(setsControllers[i].text);
                     }
+                    if(strToExercise[model.postsExercises[i]]?.measuresType != MeasuresType.reps) {
+                      if(valuesControllers[i].text.isNotEmpty) {
+                        values.add(valuesControllers[i].text);
+                        model.switchErrorBenchmarkPosts(false);
+                      } else {
+                        model.switchErrorBenchmarkPosts(true);
+                      }
+                    } else {
+                      values.add("_");
+                    }
                   }
-                  if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty) {
-                    if(model.userInfo[4] == "true" && model.postToAddIsForAdmin || model.userInfo[4] == "false") {
-                      if(_titleTextController.text.isNotEmpty && _contentTextController.text.isNotEmpty) {
-                        model.sendPost(exercises, reps.join(","), sets.join(","), title: _titleTextController.text, content: _contentTextController.text);
-                      } else {
-                        model.sendPost(exercises, reps.join(","), sets.join(","));
-                      }
-                    } else if(model.userInfo[4] == "true" && !model.postToAddIsForAdmin) {
-                      if (_titleTextController.text.isNotEmpty && _contentTextController.text.isNotEmpty) {
-                        model.sendPost(exercises, reps.join(","), sets.join(","), pName: name, pEmail: email, title: _titleTextController.text, content: _contentTextController.text);
-                      } else {
-                        model.sendPost(exercises, reps.join(","), sets.join(","), pName: name, pEmail: email);
-                      }
-                    }
-                    model.addRemExercise("", clear: true);
-                    reps = [];
-                    sets = [];
-                    if(model.userInfo[4] == "true") {
-                      if(!model.postToAddIsForAdmin) {
-                        model.setForAdmin();
-                      }
-                    }
-                    model.setAddingPostExerciseScreen(0);
-                    Navigator.pop(context);
+                  if(model.errorBenchmarkPosts) {
+                    model.showSnackbar(context, "You must fill every field.");
                   } else {
-                    if(exercises.isEmpty) {
-                      model.showSnackbar(context, "You must choose at least 1 exercise.");
-                    } else if(reps.isEmpty && sets.isEmpty) {
-                      model.showSnackbar(context, "You must write the number of reps and sets you have done.");
+                    if(exercises.isNotEmpty && reps.isNotEmpty && sets.isNotEmpty) {
+                      if(model.userInfo[4] == "true" && model.postToAddIsForAdmin || model.userInfo[4] == "false") {
+                        if(_titleTextController.text.isNotEmpty && _contentTextController.text.isNotEmpty) {
+                          model.sendPost(exercises, reps.join(","), sets.join(","), values.join(","), title: _titleTextController.text, content: _contentTextController.text);
+                        } else {
+                          model.sendPost(exercises, reps.join(","), sets.join(","), values.join(","));
+                        }
+                      } else if(model.userInfo[4] == "true" && !model.postToAddIsForAdmin) {
+                        if (_titleTextController.text.isNotEmpty && _contentTextController.text.isNotEmpty) {
+                          model.sendPost(exercises, reps.join(","), sets.join(","), values.join(","), pName: name, pEmail: email, title: _titleTextController.text, content: _contentTextController.text);
+                        } else {
+                          model.sendPost(exercises, reps.join(","), sets.join(","), values.join(","), pName: name, pEmail: email);
+                        }
+                      }
+                      model.addRemExercise("", clear: true);
+                      reps = [];
+                      sets = [];
+                      values = [];
+                      if(model.userInfo[4] == "true") {
+                        if(!model.postToAddIsForAdmin) {
+                          model.setForAdmin();
+                        }
+                      }
+                      model.setAddingPostExerciseScreen(0);
+                      Navigator.pop(context);
+                    } else {
+                      if(exercises.isEmpty) {
+                        model.showSnackbar(context, "You must choose at least 1 exercise.");
+                      } else if(reps.isEmpty || sets.isEmpty) {
+                        model.showSnackbar(context, "You must fill every field.");
+                      }
                     }
                   }
                 },
@@ -160,6 +180,23 @@ class _ExercisePostsState extends State<ExercisePosts> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  const Text("Sets: "),
+                                  const SizedBox(width: 2),
+                                  SizedBox(
+                                    width: 50,
+                                    child: TextField(
+                                      controller: setsControllers[index],
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        hintText: '0',
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
                                   const Text("Reps: "),
                                   const SizedBox(width: 2),
                                   SizedBox(
@@ -177,18 +214,27 @@ class _ExercisePostsState extends State<ExercisePosts> {
                                     ),
                                   ),
                                   const SizedBox(width: 4),
-                                  const Text("Sets: "),
+                                  if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.lbs)...[
+                                    const Text("lbs:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.meters)...[
+                                    const Text("Meters:"),
+                                  ] else if(strToExercise[model.postsExercises[index]]?.measuresType == MeasuresType.seconds)...[
+                                    const Text("Seconds:"),
+                                  ],
                                   const SizedBox(width: 2),
-                                  SizedBox(
-                                    width: 50,
-                                    child: TextField(
-                                      controller: setsControllers[index],
-                                      keyboardType: TextInputType.number,
-                                      textAlign: TextAlign.center,
-                                      decoration: InputDecoration(
-                                        hintText: '0',
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context).colorScheme.inversePrimary,
+                                  Visibility(
+                                    visible: strToExercise[model.postsExercises[index]]?.measuresType != MeasuresType.reps,
+                                    child: SizedBox(
+                                      width: 50,
+                                      child: TextField(
+                                        controller: valuesControllers[index],
+                                        keyboardType: TextInputType.number,
+                                        textAlign: TextAlign.center,
+                                        decoration: InputDecoration(
+                                          hintText: '0',
+                                          hintStyle: TextStyle(
+                                            color: Theme.of(context).colorScheme.inversePrimary,
+                                          ),
                                         ),
                                       ),
                                     ),

@@ -9,6 +9,7 @@ class Model extends ChangeNotifier {
 
   bool _isProcessing = false;
   bool _postToAddIsForAdmin = true;
+  bool _errorBenchmarkPosts = false;
   int _registered = 0;
   int _users = 0;
   int _selectedScreen = 0;
@@ -58,6 +59,7 @@ class Model extends ChangeNotifier {
   List<String> get emailsToAddingThePost => _emailsToAddingThePost;
   List<String> get nameEmailCombined => _nameEmailCombined;
   String get nameEmailCombinedValue => _nameEmailCombinedValue;
+  bool get errorBenchmarkPosts => _errorBenchmarkPosts;
 
   /*
    * This is a very dirty haxx. I never recommend using it under any circumstances.
@@ -419,7 +421,7 @@ class Model extends ChangeNotifier {
     return snapshots;
   }
 
-  void sendPost(String exercises, String reps, String sets, {String pName = "", String pEmail = "", String content = "", String title = ""}) {
+  void sendPost(String exercises, String reps, String sets, String values, {String pName = "", String pEmail = "", String content = "", String title = ""}) {
     String name, email;
     if(_userInfo[4] == "true") {
       if(postToAddIsForAdmin) {
@@ -441,6 +443,7 @@ class Model extends ChangeNotifier {
       "publisher": email,
       "reps": reps,
       "sets": sets,
+      "values": values,
       "timestamp": FieldValue.serverTimestamp(),
       "title": title,
       "uploadedByAdmin": (_userInfo[4] == "true") ? "true" : "false",
@@ -499,13 +502,15 @@ class Model extends ChangeNotifier {
     return snapshots;
   }
 
-  void sendMyBenchmarks(String exercises, String reps, String sets, String previousReps, String previousSets) {
+  void sendMyBenchmarks(String exercises, String reps, String sets, String values, String previousReps, String previousSets, String previousValues) {
     fbStore.collection("benchmark-user_${_userInfo[1]}").add({
       "exercises": exercises,
       "previous_reps": previousReps,
       "previous_sets": previousSets,
+      "previous_values": previousValues,
       "reps": reps,
       "sets": sets,
+      "values": values,
       "timestamp": FieldValue.serverTimestamp(),
     });
   }
@@ -513,5 +518,10 @@ class Model extends ChangeNotifier {
   Stream<QuerySnapshot> getBenchmarks() {
     Stream<QuerySnapshot> snapshots = fbStore.collection("benchmark-user_${_userInfo[1]}").orderBy("timestamp", descending: false).snapshots();
     return snapshots;
+  }
+
+  switchErrorBenchmarkPosts(bool bl) {
+    _errorBenchmarkPosts = bl;
+    notifyListeners();
   }
 }

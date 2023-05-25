@@ -197,7 +197,7 @@ class _HomeState extends State<Home> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return const ClassBooking();
+                                              return const BookedClasses();
                                             },
                                           ),
                                         );
@@ -209,19 +209,19 @@ class _HomeState extends State<Home> {
                                 Column(
                                   children: [
                                     IconButton(
-                                      icon: const Icon(Icons.timelapse),
+                                      icon: const Icon(Icons.more_time_outlined),
                                       onPressed: () {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) {
-                                              return const BookedClasses();
+                                              return const ClassBooking();
                                             },
                                           ),
                                         );
                                       },
                                     ),
-                                    const Text("Booked"),
+                                    const Text("Book class"),
                                   ],
                                 ),
                               ],

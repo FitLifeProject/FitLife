@@ -141,7 +141,7 @@ class _ChatState extends State<Chat> {
                     icon: const Icon(Icons.send),
                     color: Theme.of(context).colorScheme.inverseSurface,
                     onPressed: () {
-                      (!edit) ? model.sendMsg(textEditingController.text, ++index, !edit) : model.sendMsg(textEditingController.text, editDoc, edit);
+                      (!edit) ? model.sendMsg(textEditingController.text, ++index, false) : model.sendMsg(textEditingController.text, editDoc, true);
                       edit = false;
                       editDoc = 0;
                       textEditingController.clear();

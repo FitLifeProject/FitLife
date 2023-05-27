@@ -533,15 +533,14 @@ class _LoginRegisterState extends State<LoginRegister> {
                           email: _emailTextController.text,
                           isAdmin: true
                       );
-
-                      _nameTextController.text = "";
-                      _emailTextController.text = "";
-                      _passwordTextController.text = "";
-                      _gymNameTextController.text = "";
-                      _gymLocationController.text = "";
-                      _activeHoursController.text = "";
-                      _priceController.text = "";
                       if(_nameTextController.text.isNotEmpty && _emailTextController.text.isNotEmpty) {
+                        _nameTextController.text = "";
+                        _emailTextController.text = "";
+                        _passwordTextController.text = "";
+                        _gymNameTextController.text = "";
+                        _gymLocationController.text = "";
+                        _activeHoursController.text = "";
+                        _priceController.text = "";
                         Navigator.push(
                           context,
                           MaterialPageRoute(

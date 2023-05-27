@@ -5,6 +5,7 @@ import 'package:fitlife/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class LoginRegister extends StatefulWidget {
   const LoginRegister({Key? key}) : super(key: key);
@@ -456,29 +457,25 @@ class _LoginRegisterState extends State<LoginRegister> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 12.0),
                   Visibility(
                     visible: _selectedHour != "24H",
-                    child: TextFormField(
-                      controller: _activeHoursController,
-                      decoration: InputDecoration(
-                        hintText: "Ex: 10:00-3:00AM 5:00-10:00PM",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          borderSide: const BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(107, 153, 137, 1)),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Color.fromRGBO(166, 206, 231, 1)),
-                        ),
-                        hintStyle: const TextStyle(color: Color.fromRGBO(137, 200, 188, 1)),
+                    child: GestureDetector(
+                      onTap: () async {
+                        TimeRange? result = await showTimeRangePicker(
+                          context: context,
+                        );
+                        setState(() {
+                          _activeHoursController.text = "${result?.startTime.hour}:${result?.startTime.minute}-${result?.endTime.hour}:${result?.endTime.minute}";
+                        });
+                      },
+                      child: ListTile(
+                        title: const Text("Hours that is opened"),
+                        subtitle: Text(_activeHoursController.text),
                       ),
-                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(height: 24.0),
+                  const SizedBox(height: 12.0),
                   TextFormField(
                     controller: _priceController,
                     validator: (value) => Validator.validateNumber(

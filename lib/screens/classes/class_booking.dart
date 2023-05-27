@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fitlife/models/model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,10 +14,29 @@ class ClassBooking extends StatefulWidget {
 
 class _ClassBookingState extends State<ClassBooking> {
   var today = DateTime.now();
+  Timer? timer;
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       today = day;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          today = DateTime.now();
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -67,7 +88,13 @@ class _ClassBookingState extends State<ClassBooking> {
                     if(snapshot.hasError) {
                       return const Center(child: CircularProgressIndicator());
                     } else {
-                      if(today.isBefore(DateTime.now().subtract(const Duration(days: 1)))) {
+                      String dateString = documentName.split('_')[0];
+                      String startTimeString = documentName.split('_')[1].split('-')[0];
+                      String endTimeString = documentName.split('_')[1].split('-')[1];
+                      DateTime date = DateTime.parse(dateString);
+                      DateTime startTime = DateTime.parse('$dateString $startTimeString');
+                      DateTime endTime = DateTime.parse('$dateString $endTimeString');
+                      if (startTime.isBefore(DateTime.now())) {
                         return IgnorePointer(
                           ignoring: true,
                           child: AbsorbPointer(

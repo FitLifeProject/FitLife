@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/chat.dart';
+import 'package:fitlife/screens/classes/add_class.dart';
 import 'package:fitlife/screens/classes/booked_classes.dart';
 import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/gyminfo.dart';
@@ -9,6 +10,7 @@ import 'package:fitlife/screens/gymresults.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -206,24 +208,45 @@ class _HomeState extends State<Home> {
                                     const Text("Calendar"),
                                   ],
                                 ),
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.more_time_outlined),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) {
-                                              return const ClassBooking();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    const Text("Book class"),
-                                  ],
-                                ),
+                                if(model.userInfo[4] == "true")...[
+                                  Column(
+                                    children: [
+                                      IconButton(
+                                        icon: const FaIcon(FontAwesomeIcons.calendarPlus),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return const AddClass();
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      const Text("Add class"),
+                                    ],
+                                  ),
+                                ] else...[
+                                  Column(
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.more_time_outlined),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return const ClassBooking();
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      const Text("Book class"),
+                                    ],
+                                  ),
+                                ]
                               ],
                             ),
                           ),

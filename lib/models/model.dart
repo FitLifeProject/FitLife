@@ -482,7 +482,12 @@ class Model extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getMyClasses() {
-    Stream<QuerySnapshot> snapshots = fbStore.collection("class-${_userInfo[3]}").where("users", arrayContains: _userInfo[1]).snapshots();
+    Stream<QuerySnapshot> snapshots;
+    if(_userInfo[4] == "true") {
+      snapshots = fbStore.collection("class-${_userInfo[3]}").snapshots();
+    } else {
+      snapshots = fbStore.collection("class-${_userInfo[3]}").where("users", arrayContains: _userInfo[1]).snapshots();
+    }
     return snapshots;
   }
 

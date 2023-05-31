@@ -19,7 +19,7 @@ class _BookedClassesState extends State<BookedClasses> {
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text("Booked classes of ${model.userInfo[0]}"),
+        title: Text((model.userInfo[4] == "true") ? "Classes held at ${model.userInfo[3]}" : "Booked classes of ${model.userInfo[0]}"),
         centerTitle: true,
       ),
       body: StreamBuilder(
@@ -27,7 +27,7 @@ class _BookedClassesState extends State<BookedClasses> {
         builder: (context, snapshot) {
           final classes = (snapshot.data?.docs ?? []);
           if(!snapshot.hasData) {
-            return const Center(child: ListTile(title: Text("You haven't booked any class.")));
+            return Center(child: ListTile(title: Text((model.userInfo[4] == "true") ? "No classes have been held at ${model.userInfo[3]}" : "You haven't booked any class.")));
           } else {
             return ListView.builder(
                 itemCount: classes.length,

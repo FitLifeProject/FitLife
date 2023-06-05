@@ -42,41 +42,55 @@ class _ExercisePostsState extends State<ExercisePosts> {
     List values = [];
     return WillPopScope(
       onWillPop: () async {
-        final result = await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text("Are you sure you don't want post the exercise you have done?"),
-              content: const Text("Important: If you exit everything will be discarded!"),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text("No"),
-                  onPressed: () => Navigator.of(context).pop(false),
-                ),
-                ElevatedButton(
-                  child: const Text("Yes"),
-                  onPressed: () {
-                    model.setAddingPostExerciseScreen(0);
-                    model.addRemExercise("", clear: true);
-                    sets = [];
-                    reps = [];
-                    values = [];
-                    if(model.userInfo[4] == "true") {
-                      if(!model.postToAddIsForAdmin) {
-                        model.setForAdmin();
-                      }
-                    }
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ],
-            ));
-        return result ?? false;
+        var result = false;
+        if(model.addingPostExerciseScreen == 1 || model.addingPostExerciseScreen == 2) {
+          model.setAddingPostExerciseScreen(0);
+        } else {
+          result = await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                  title: const Text(
+                      "Are you sure you don't want post the exercise you have done?"),
+                  content: const Text(
+                      "Important: If you exit everything will be discarded!"),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      child: const Text("No"),
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                    ElevatedButton(
+                      child: const Text("Yes"),
+                      onPressed: () {
+                        model.setAddingPostExerciseScreen(0);
+                        model.addRemExercise("", clear: true);
+                        sets = [];
+                        reps = [];
+                        values = [];
+                        if (model.userInfo[4] == "true") {
+                          if (!model.postToAddIsForAdmin) {
+                            model.setForAdmin();
+                          }
+                        }
+                        Navigator.of(context).pop(true);
+                      },
+                    ),
+                  ],
+              ),
+          );
+        }
+        return result;
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () =>  {
+              if(model.addingPostExerciseScreen == 1 || model.addingPostExerciseScreen == 2) {
+                model.setAddingPostExerciseScreen(0)
+              } else {
+                Navigator.pop(context)
+              }
+            },
             icon: const Icon(Icons.arrow_back),
           ),
           title: const Text("Add posts"),

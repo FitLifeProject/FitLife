@@ -1,5 +1,6 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
+import 'package:fitlife/widgets/grayedout.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -269,18 +270,21 @@ class _ExercisePostsState extends State<ExercisePosts> {
                 ),
                 Visibility(
                   visible: model.userInfo[4] == "true",
-                  child: ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: const Text("Is the post for an admin?"),
-                    trailing: Switch(
-                      value: model.postToAddIsForAdmin,
-                      onChanged: (bool newValue) {
-                        model.setForAdmin();
-                      },
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.grey,
-                      inactiveTrackColor: Colors.grey,
-                      activeTrackColor: Colors.lightGreen,
+                  child: GrayedOut(
+                    grayedOut: model.nameEmailCombinedValue.isEmpty,
+                    ListTile(
+                      leading: const Icon(Icons.person_outline),
+                      title: const Text("Is the post for an admin?"),
+                      trailing: Switch(
+                        value: model.postToAddIsForAdmin,
+                        onChanged: model.nameEmailCombinedValue.isEmpty ? null : (bool newValue) {
+                          model.setForAdmin();
+                        },
+                        activeColor: Colors.green,
+                        inactiveThumbColor: Colors.grey,
+                        inactiveTrackColor: Colors.grey,
+                        activeTrackColor: Colors.lightGreen,
+                      ),
                     ),
                   ),
                 ),

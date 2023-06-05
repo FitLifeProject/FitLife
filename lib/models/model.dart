@@ -463,7 +463,7 @@ class Model extends ChangeNotifier {
       }
     }
     _nameEmailCombined = List.generate(_namesToAddingThePost.length, (index) => '${_namesToAddingThePost[index]} - ${_emailsToAddingThePost[index]}');
-    _nameEmailCombinedValue = _nameEmailCombined[0];
+    _nameEmailCombinedValue = _nameEmailCombined.isNotEmpty ? _nameEmailCombined[0] : "";
     notifyListeners();
   }
 

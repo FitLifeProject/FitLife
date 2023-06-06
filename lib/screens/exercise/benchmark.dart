@@ -1,6 +1,8 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/exercise/add_benchmark.dart';
+import 'package:fitlife/widgets/web_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -157,7 +159,7 @@ class _BenchmarkState extends State<Benchmark> {
                                                 onTap: () async {
                                                   await launch(exercises[index].url);
                                                 },
-                                                child: Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
+                                                child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 480, width: 640) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                               ),
                                               const SizedBox(height: 6),
                                               Align(

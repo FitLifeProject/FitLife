@@ -4,6 +4,8 @@ import 'package:fitlife/screens/classes/add_class.dart';
 import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/chat.dart';
 import 'package:fitlife/screens/upload_images.dart';
+import 'package:fitlife/widgets/web_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -244,7 +246,7 @@ class _GymInfoState extends State<GymInfo> {
                                               onTap: () async {
                                                 await launch(exercises[index].url);
                                               },
-                                              child: Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
+                                              child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 480, width: 640) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                             ),
                                             const SizedBox(height: 3),
                                           ],

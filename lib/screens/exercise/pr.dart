@@ -1,6 +1,8 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/screens/exercise_posts.dart';
+import 'package:fitlife/widgets/web_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -126,7 +128,7 @@ class _PRState extends State<PR> {
                                         onTap: () async {
                                           await launch(exercise.url);
                                         },
-                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                        child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 240, width: 320) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                       ),
                                       title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
                                       subtitle: Text("Sets: $set Reps: $rep $valTitle: $value", style: const TextStyle(fontSize: 16.0),),
@@ -137,7 +139,7 @@ class _PRState extends State<PR> {
                                         onTap: () async {
                                           await launch(exercise.url);
                                         },
-                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                        child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 240, width: 320) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                       ),
                                       title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
                                       subtitle: Text("Sets: $set Reps: $rep", style: const TextStyle(fontSize: 16.0),),

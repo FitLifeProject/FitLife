@@ -8,6 +8,8 @@ import 'package:fitlife/screens/classes/class_booking.dart';
 import 'package:fitlife/screens/gyminfo.dart';
 import 'package:fitlife/screens/gymresults.dart';
 import 'package:fitlife/widgets/bottom_navigation.dart';
+import 'package:fitlife/widgets/web_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -342,7 +344,7 @@ class _HomeState extends State<Home> {
                                                   onTap: () async {
                                                     await launch(exercises[index].url);
                                                   },
-                                                  child: Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
+                                                  child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 480, width: 640) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                                 ),
                                                 const SizedBox(height: 3),
                                               ],

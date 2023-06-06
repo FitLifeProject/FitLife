@@ -1,6 +1,8 @@
 import 'package:fitlife/models/model.dart';
 import 'package:fitlife/resources/exercises.dart';
 import 'package:fitlife/widgets/grayedout.dart';
+import 'package:fitlife/widgets/web_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -351,7 +353,11 @@ class _ExercisePostsState extends State<ExercisePosts> {
                       child: Column(
                         children: [
                           Text(type.name),
-                          Image.network(YoutubeThumbnail(youtubeId: type.url.replaceRange(0, 17, "")).hq(), color: (!model.postsExercises.contains(type.name) ? null : Colors.grey), colorBlendMode: BlendMode.saturation,),
+                          if(kIsWeb)...[
+                            model.postsExercises.contains(type.name) ? ColorFiltered(colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.saturation), child: WebImage(imageSrc: YoutubeThumbnail(youtubeId: type.url.replaceRange(0, 17, "")).standard(), height: 480, width: 640)) : WebImage(imageSrc: YoutubeThumbnail(youtubeId: type.url.replaceRange(0, 17, "")).standard(), height: 480, width: 640)
+                          ] else... [
+                            Image.network(YoutubeThumbnail(youtubeId:  type.url.replaceRange(0, 17, "")).standard(), color: (!model.postsExercises.contains(type.name) ? null : Colors.grey), colorBlendMode: BlendMode.saturation,)
+                          ]
                         ],
                       ),
                     );

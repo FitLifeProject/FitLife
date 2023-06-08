@@ -15,8 +15,6 @@ class Benchmark extends StatefulWidget {
 }
 
 class _BenchmarkState extends State<Benchmark> {
-  bool moreThanOneExercise = false;
-
   @override
   Widget build(BuildContext context) {
     var model = context.watch<Model>();
@@ -80,7 +78,7 @@ class _BenchmarkState extends State<Benchmark> {
                               reps = posts[index]['reps'].split(",");
                               sets = posts[index]['sets'].split(",");
                               values = posts[index]['values'].split(",");
-                              setState(() => moreThanOneExercise = true);
+                              model.setMoreThanOneExercise(true);
                             }
                           }
                           if(snapshot.hasError) {
@@ -108,7 +106,7 @@ class _BenchmarkState extends State<Benchmark> {
                                                 style: const TextStyle(fontSize: 36.0),
                                               ),
                                               const SizedBox(height: 5),
-                                              if (moreThanOneExercise)...[
+                                              if (model.moreThanOneExercise)...[
                                                 Text(
                                                   "Sets: ${oldSets[index]} -> ${sets[index]}",
                                                   style: const TextStyle(fontSize: 16.0),

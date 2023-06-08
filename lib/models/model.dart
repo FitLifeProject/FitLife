@@ -10,6 +10,7 @@ class Model extends ChangeNotifier {
   bool _isProcessing = false;
   bool _postToAddIsForAdmin = true;
   bool _errorBenchmarkPosts = false;
+  bool _moreThanOneExercise = false;
   int _registered = 0;
   int _users = 0;
   int _selectedScreen = 0;
@@ -60,6 +61,7 @@ class Model extends ChangeNotifier {
   List<String> get nameEmailCombined => _nameEmailCombined;
   String get nameEmailCombinedValue => _nameEmailCombinedValue;
   bool get errorBenchmarkPosts => _errorBenchmarkPosts;
+  bool get moreThanOneExercise => _moreThanOneExercise;
 
   /*
    * This is a very dirty haxx. I never recommend using it under any circumstances.
@@ -528,5 +530,9 @@ class Model extends ChangeNotifier {
   switchErrorBenchmarkPosts(bool bl) {
     _errorBenchmarkPosts = bl;
     notifyListeners();
+  }
+
+  setMoreThanOneExercise(bool morethanone) {
+    _moreThanOneExercise = morethanone;
   }
 }

@@ -244,7 +244,7 @@ class _GymInfoState extends State<GymInfo> {
                                               onTap: () async {
                                                 await launch(exercises[index].url);
                                               },
-                                              child: Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
+                                              child: Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).hq()),
                                             ),
                                             const SizedBox(height: 3),
                                           ],

@@ -340,7 +340,7 @@ class _AddBenchmarkState extends State<AddBenchmark> {
                       child: Column(
                         children: [
                           Text(type.name),
-                          Image.network(YoutubeThumbnail(youtubeId: type.url.replaceRange(0, 17, "")).standard(), color: (!model.postsExercises.contains(type.name) ? null : Colors.grey), colorBlendMode: BlendMode.saturation,),
+                          Image.network(YoutubeThumbnail(youtubeId: type.url.replaceRange(0, 17, "")).hq(), color: (!model.postsExercises.contains(type.name) ? null : Colors.grey), colorBlendMode: BlendMode.saturation,),
                         ],
                       ),
                     );

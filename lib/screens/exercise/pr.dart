@@ -126,7 +126,7 @@ class _PRState extends State<PR> {
                                         onTap: () async {
                                           await launch(exercise.url);
                                         },
-                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).hq()),
                                       ),
                                       title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
                                       subtitle: Text("Sets: $set Reps: $rep $valTitle: $value", style: const TextStyle(fontSize: 16.0),),
@@ -137,7 +137,7 @@ class _PRState extends State<PR> {
                                         onTap: () async {
                                           await launch(exercise.url);
                                         },
-                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).standard()),
+                                        child: Image.network(YoutubeThumbnail(youtubeId: exercise.url.replaceRange(0, 17, "")).hq()),
                                       ),
                                       title: Text(exercise.name, style: const TextStyle(fontSize: 24.0),),
                                       subtitle: Text("Sets: $set Reps: $rep", style: const TextStyle(fontSize: 16.0),),

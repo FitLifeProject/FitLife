@@ -288,7 +288,7 @@ class _ExercisePostsState extends State<ExercisePosts> {
                     grayedOut: model.nameEmailCombinedValue.isEmpty,
                     ListTile(
                       leading: const Icon(Icons.person_outline),
-                      title: const Text("Is the post for an admin?"),
+                      title: const Text("Is this post for an admin?"),
                       trailing: Switch(
                         value: model.postToAddIsForAdmin,
                         onChanged: model.nameEmailCombinedValue.isEmpty ? null : (bool newValue) {

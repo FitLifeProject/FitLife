@@ -289,7 +289,7 @@ class _ProfileState extends State<Profile> {
                                           showDialog(
                                             context: context,
                                             builder: (_) => AlertDialog(
-                                              content: const Text("Are you sure that you want to delete that message?"),
+                                              content: const Text("Are you sure that you want to delete that training?"),
                                               actions: <Widget>[
                                                 TextButton(
                                                   child: const Text("No"),

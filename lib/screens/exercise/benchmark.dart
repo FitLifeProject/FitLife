@@ -160,16 +160,16 @@ class _BenchmarkState extends State<Benchmark> {
                                                 child: (kIsWeb) ? WebImage(imageSrc: YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard(), height: 480, width: 640) : Image.network(YoutubeThumbnail(youtubeId:  exercises[index].url.replaceRange(0, 17, "")).standard()),
                                               ),
                                               const SizedBox(height: 6),
-                                              Align(
-                                                alignment: Alignment.centerRight,
-                                                child: Text(
-                                                    DateFormat("dd/MM/yyyy HH:mm:ss").format((posts[index]['timestamp'].toDate())),
-                                                    style: const TextStyle(fontSize: 14.0, color: Colors.grey)
-                                                ),
-                                              ),
                                             ],
                                           );
                                         },
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                            DateFormat("dd/MM/yyyy HH:mm:ss").format((posts[index]['timestamp'].toDate())),
+                                            style: const TextStyle(fontSize: 14.0, color: Colors.grey)
+                                        ),
                                       ),
                                       const SizedBox(height: 5),
                                     ],

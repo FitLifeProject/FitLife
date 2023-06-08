@@ -66,7 +66,7 @@ class Validator {
     if(number.isEmpty) {
       return "How is your gym free?";
     } else if(number.contains(RegExp(r"^(?=.*?[a-z])(?=.*?[A-Z])"))) {
-      return "Price can just contains numbers (decimals are separated by a dot)";
+      return "Price can just contain numbers (decimals are separated by a dot)";
     }
     
     return null;

@@ -72,7 +72,7 @@ class _PRState extends State<PR> {
                   ),
                 );
               },
-              child: const Text('Register new mark'),
+              child: const Text('Register a new mark'),
             ),
             StreamBuilder(
               stream: model.getPosts(),

@@ -263,7 +263,7 @@ class _AddClassState extends State<AddClass> {
                   });
                 },
                 child: ListTile(
-                  title: const Text('Hour of the class'),
+                  title: const Text('Class Hour'),
                   subtitle: Text("From ${_hoursTextController.text} to ${_hours2Textcontroller.text}"),
                 ),
               ),

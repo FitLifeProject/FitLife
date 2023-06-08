@@ -83,6 +83,7 @@ class _TimeRState extends State<TimeR> {
           icon: const Icon(Icons.arrow_back),
         ),
         title: const Text('Timer'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
